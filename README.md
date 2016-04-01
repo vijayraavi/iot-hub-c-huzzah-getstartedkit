@@ -109,7 +109,7 @@ In this tutorial, you'll be doing the following:
 | Start                   | End                    | Connector     |
 | ----------------------- | ---------------------- | ------------: |
 | DHT22 (Pin 1J)          | DHT22 (Pin 4J)         | DHT22         |
-| NULL (Pin 2I)           | Pin 1F                 | 330 Ohm Resistor  |
+| NULL (Pin 2I)           | Pin 1F                 | 10k Ohm Resistor  |
 
 
 - For more information, see: [Adafruit DHT22 sensor setup](https://learn.adafruit.com/dht/connecting-to-a-dhtxx-sensor).
@@ -262,7 +262,7 @@ This tutorial has the following steps:
 | Start                   | End                    | Connector     |
 | ----------------------- | ---------------------- | ------------ |
 | DHT22 (Pin 1J)          | DHT22 (Pin 4J)         | DHT22         |
-| NULL (Pin 2I)           | Pin 1F                 | 330 Ohm Resistor  |
+| NULL (Pin 2I)           | Pin 1F                 | 10k Ohm Resistor  |
 | Pin 2-                  | Pin 2A                 | 330 Ohm Resistor  |
 | Pin 4-                  | Pin 5A                 | 330 Ohm Resistor  |
 | GRN LED (Pin 2C)        | Pin 3C                 | Green LED  |
