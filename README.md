@@ -133,7 +133,7 @@ For this project, we'll also need the the following libraries:
  To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
 
  We will also need the latest Azure IoT Library. 
- - Go to https://github.com/stefangordon/AzureIoT/ and follow the instructions under "Adafruit Feather M0"
+ - Go to https://github.com/stefangordon/AzureIoT/ and follow the instructions under "ESP8266"
 
 Lastly we will also need the latest esp8266 Arduino library
 - Visit https://github.com/esp8266/Arduino and follow the instructions for "Using git version"
@@ -463,7 +463,7 @@ For this project, we'll also need the the following libraries:
  To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
 
  We will also need the latest Azure IoT Library. 
- - Go to https://github.com/stefangordon/AzureIoT/ and follow the instructions under "Adafruit Feather M0"
+ - Go to https://github.com/stefangordon/AzureIoT/ and follow the instructions under "ESP8266"
 
 Lastly we will also need the latest esp8266 Arduino library
 - Visit https://github.com/esp8266/Arduino and follow the instructions for "Using git version"
