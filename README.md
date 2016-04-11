@@ -127,10 +127,11 @@ You will need to install the Adafruit Huzzah ESP8266 board extension for the Ard
 For this project, we'll also need the the following libraries:
 
  - DHT Sensor Library
- - Adafruit Sensor Library
  - Adafruit DHT Unified
  
  To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
+
+The Adafruit Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
 
  We will also need the latest Azure IoT Library. 
  - Go to https://github.com/stefangordon/AzureIoT/ and follow the instructions under "ESP8266"
