@@ -401,7 +401,7 @@ sudo apt-get install npm
 - Additionally, make sure you have cloned the project repository locally by issuing the following command in your desired directory:
 
 ```
-git clone https://github.com/Azure-Samples/iot-hub-c-raspberrypi-getstartedkit.git
+git clone https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit.git
 ```
 
 - Open the `command_center_node` folder in your command prompt (`cd path/to/command_center_node`) and install the required modules by running the following:
