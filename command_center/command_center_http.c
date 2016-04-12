@@ -20,9 +20,9 @@ and removing calls to _DoWork will yield the same results. */
 
 #include "AzureIoT.h"
 
-
 //static const char* connectionString = "HostName=[host].azure-devices.net;DeviceId=[device];SharedAccessKey=[key]";
-static const char connectionString[] = "HostName=[host].azure-devices.net;DeviceId=[device];SharedAccessKey=[key]";
+static const char DeviceId[] = "[Device Name]";
+static const char connectionString[] = "[Device Connection String]";
 
 static int redLedPin = 12;
 static int redLedState = LOW;
@@ -34,13 +34,11 @@ BEGIN_NAMESPACE(WeatherStation);
 
 DECLARE_MODEL(ContosoAnemometer,
 WITH_DATA(ascii_char_ptr, DeviceId),
-WITH_DATA(ascii_char_ptr, EventTime),
-WITH_DATA(int, WindSpeed),
+WITH_DATA(int, EventTime),
 WITH_DATA(int, MTemperature),
 WITH_DATA(int, Humidity),
 WITH_ACTION(TurnFanOn),
-WITH_ACTION(TurnFanOff),
-WITH_ACTION(SetAirResistance, int, Position)
+WITH_ACTION(TurnFanOff)
 );
 
 END_NAMESPACE(WeatherStation);
@@ -83,13 +81,6 @@ EXECUTE_COMMAND_RESULT TurnFanOff(ContosoAnemometer* device)
     return EXECUTE_COMMAND_SUCCESS;
 }
 
-EXECUTE_COMMAND_RESULT SetAirResistance(ContosoAnemometer* device, int Position)
-{
-    (void)device;
-    LogInfo("Setting Air Resistance Position to %d.\r\n", Position);
-    return EXECUTE_COMMAND_SUCCESS;
-}
-
 void sendCallback(IOTHUB_CLIENT_CONFIRMATION_RESULT result, void* userContextCallback)
 {
     int messageTrackingId = (intptr_t)userContextCallback;
@@ -126,6 +117,7 @@ static void sendMessage(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, const unsign
 /*this function "links" IoTHub to the serialization library*/
 static IOTHUBMESSAGE_DISPOSITION_RESULT IoTHubMessage(IOTHUB_MESSAGE_HANDLE message, void* userContextCallback)
 {
+    LogInfo("Command Recieved\r\n");
     IOTHUBMESSAGE_DISPOSITION_RESULT result;
     const unsigned char* buffer;
     size_t size;
@@ -211,39 +203,7 @@ void simplesample_http_run(void)
                 }
                 else
                 {
-                    myWeather->DeviceId = "myFirstDevice";
-                    myWeather->WindSpeed = avgWindSpeed + (rand() % 4 + 2);
-                    {
-                        unsigned char* destination;
-                        size_t destinationSize;
-                        if (SERIALIZE(&destination, &destinationSize, myWeather->DeviceId, myWeather->WindSpeed) != IOT_AGENT_OK)
-                        {
-                            LogInfo("Failed to serialize\r\n");
-                        }
-                        else
-                        {
-                            IOTHUB_MESSAGE_HANDLE messageHandle = IoTHubMessage_CreateFromByteArray(destination, destinationSize);
-                            if (messageHandle == NULL)
-                            {
-                                LogInfo("unable to create a new IoTHubMessage\r\n");
-                            }
-                            else
-                            {
-                                if (IoTHubClient_LL_SendEventAsync(iotHubClientHandle, messageHandle, sendCallback, (void*)1) != IOTHUB_CLIENT_OK)
-                                {
-                                    LogInfo("failed to hand over the message to IoTHubClient\r\n");
-                                }
-                                else
-                                {
-                                    LogInfo("IoTHubClient accepted the message for delivery\r\n");
-                                }
-
-                                IoTHubMessage_Destroy(messageHandle);
-                            }
-                            free(destination);
-                        }
-                    }
-
+                    
                     /* wait for commands */
                     long Prev_time_ms = millis();
                     char buff[11];
@@ -257,45 +217,48 @@ void simplesample_http_run(void)
                             Prev_time_ms = Curr_time_ms;
                             
                             timeNow = (int)time(NULL);
-                            sprintf(buff, "%d", timeNow);
+                            //sprintf(buff, "%d", timeNow);
 
                             float Temp_c__f, Humi_pct__f;
                             getNextSample(&Temp_c__f, &Humi_pct__f);
-                            myWeather->DeviceId = "myFirstDevice";
+                            
+                            myWeather->DeviceId = DeviceId;
                             myWeather->EventTime = timeNow;
-                            myWeather->WindSpeed = avgWindSpeed + (rand() % 4 + 2);
                             myWeather->MTemperature = (int)Temp_c__f;
                             myWeather->Humidity = (int)Humi_pct__f;
+
+                            LogInfo("Result: %s | %d | %d | %d \r\n", myWeather->DeviceId, myWeather->EventTime, myWeather->MTemperature, myWeather->Humidity);
+                        
+                            unsigned char* destination;
+                            size_t destinationSize;
+                            
+                            if (SERIALIZE(&destination, &destinationSize, myWeather->DeviceId, myWeather->EventTime, myWeather->MTemperature, myWeather->Humidity) != IOT_AGENT_OK)
                             {
-                                unsigned char* destination;
-                                size_t destinationSize;
-                                if (SERIALIZE(&destination, &destinationSize, myWeather->DeviceId, myWeather->EventTime, myWeather->WindSpeed, myWeather->MTemperature, myWeather->Humidity) != IOT_AGENT_OK)
+                                LogInfo("Failed to serialize\r\n");
+                            }
+                            else
+                            {
+                                IOTHUB_MESSAGE_HANDLE messageHandle = IoTHubMessage_CreateFromByteArray(destination, destinationSize);
+                                if (messageHandle == NULL)
                                 {
-                                    LogInfo("Failed to serialize\r\n");
+                                    LogInfo("unable to create a new IoTHubMessage\r\n");
                                 }
                                 else
                                 {
-                                    IOTHUB_MESSAGE_HANDLE messageHandle = IoTHubMessage_CreateFromByteArray(destination, destinationSize);
-                                    if (messageHandle == NULL)
+                                    if (IoTHubClient_LL_SendEventAsync(iotHubClientHandle, messageHandle, sendCallback, (void*)1) != IOTHUB_CLIENT_OK)
                                     {
-                                        LogInfo("unable to create a new IoTHubMessage\r\n");
+                                        LogInfo("failed to hand over the message to IoTHubClient\r\n");
                                     }
                                     else
                                     {
-                                        if (IoTHubClient_LL_SendEventAsync(iotHubClientHandle, messageHandle, sendCallback, (void*)1) != IOTHUB_CLIENT_OK)
-                                        {
-                                            LogInfo("failed to hand over the message to IoTHubClient\r\n");
-                                        }
-                                        else
-                                        {
-                                            LogInfo("IoTHubClient accepted the message for delivery\r\n");
-                                        }
-        
-                                        IoTHubMessage_Destroy(messageHandle);
+                                        LogInfo("IoTHubClient accepted the message for delivery\r\n");
                                     }
-                                    free(destination);
+    
+                                    IoTHubMessage_Destroy(messageHandle);
                                 }
+                                free(destination);
                             }
+                            
                         }
                         
                         IoTHubClient_LL_DoWork(iotHubClientHandle);

@@ -12,7 +12,7 @@ You can choose to start with whichever tutorial you want to. If you've never wor
 
  We hope you enjoy the process. Please provide feedback if there's anything that we can improve.
  
- ***
+***
 **Don't have a kit yet?:** Click [here](http://azure.com/iotstarterkits)
 ***
 
@@ -68,6 +68,11 @@ In this tutorial, you'll be doing the following:
 
 - Click select in the **Remote Monitoring** option
 - Type in a solution name. For this tutorial we’ll be using _“HuzzahSuite”_ (You will have to name it something else. Make it unique. I.E. "ContosoSample")
+
+***
+**Note:** Make sure to copy down the names and connection strings mentioned into a text document for reference later.
+***
+
 - Choose your subscription and desired region to deploy, then click **Create Solution**
 - Wait for Azure to finish provisioning your IoT suite (this process may take up to 10 minutes), and then click **Launch**
 
@@ -121,6 +126,8 @@ In this tutorial, you'll be doing the following:
 You will need to install the Adafruit Huzzah ESP8266 board extension for the Arduino IDE:
 
 - Follow the instructions [here](https://learn.adafruit.com/adafruit-huzzah-esp8266-breakout/using-arduino-ide). There you will see how to add a URL pointing to Adafruit's repository of board extensions, how to make the Adafruit Huzzah ESP8266 board selectable under the **Tools** menu, and how to get the Blink sketch to run.
+- After going through this, you should have a working sample with a blinking light on your board.
+    - If you run into any connection issues, unplug the board, hold the reset button, and while still holding it, plug the board back in. This will flash to board to try again.
 
 ## 1.6 Install Library Dependencies
 
@@ -135,6 +142,10 @@ The Adafruit Sensor library is also needed. This can be downloaded [here](https:
 
  We will also need the latest Azure IoT Library. 
  - Go to https://github.com/stefangordon/AzureIoT/ and follow the instructions under "ESP8266"
+ 
+***
+**Note**: If you have an earlier version of the IoT library, navigate to your Arduino documents directory. Inside the "Libraries" folder, there will be a number of installed libraries. Simply delete the `AzureIoT` folder.
+***
 
 Lastly we will also need the latest esp8266 Arduino library
 - Visit https://github.com/esp8266/Arduino and follow the instructions for "Using git version"
@@ -233,7 +244,7 @@ This tutorial has the following steps:
 ### 2.2.1 Required Software
 
 - [Git](https://git-scm.com/downloads) - For cloning the required repositories
-- [Node.js](https://nodejs.org) - For running the Node application
+- Node.js - For the Node application, we will go over this later.
 - Arduino IDE, version 1.6.8. (Earlier versions will not work with the Azure IoT library)
 - Sensor interface [library] (https://github.com/adafruit/Adafruit_DHT22_Library/archive/master.zip) from Adafruit. 
 
@@ -283,6 +294,7 @@ This tutorial has the following steps:
 
 ## 2.5 Create an Event Hub
 Event Hub is an Azure IoT publish-subscribe service that can ingest millions of events per second and stream them into multiple applications, services or devices.
+
 - Log on to the [Microsoft Azure Portal](https://portal.azure.com/)
 - Click on **New** -&gt; **Internet of Things**-&gt; **Event Hub**
 - After being redirected, click "Custom Create", Enter the following settings for the Event Hub (use a name of your choice for the event hub and the namespace):
@@ -313,6 +325,7 @@ Now we will create a service to store our data in the cloud.
 
 ## 2.7 Create a Stream Analytics job to Save IoT Data in Table Storage and Raise Alerts
 Stream Analytics is an Azure IoT service that streams and analyzes data in the cloud. We'll use it to process data coming from your device.
+
 - Log on to the [Microsoft Azure Portal](https://portal.azure.com/)
 - In the menu, click **New**, then click **Internet of Things**, and then click **Stream Analytics Job**
 - Enter a name for the job (We chose “HuzzahStorageJob”), a preferred region, then choose your subscription. At this stage you are also offered to create a new or to use an existing resource group. Choose the resource group you created earlier (In our case, `Huzzah2Suite`).
@@ -350,7 +363,7 @@ INTO   
     TemperatureAlertToEventHub
 FROM
     TempSensors
-WHERE TemperatureReading>25 
+WHERE MTemperature>25 
 ```
 
 ***
@@ -404,7 +417,7 @@ sudo apt-get install npm
 git clone https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit.git
 ```
 
-- Open the `command_center_node` folder in your command prompt (`cd path/to/command_center_node`) and install the required modules by running the following:
+- Open the `command_center_node` folder in your command prompt (`cd <path to locally cloned repro>/command_center_node`) and install the required modules by running the following:
 
 ```
 npm install -g bower
@@ -412,18 +425,49 @@ npm install express nconf tough-cookie azure-event-hubs azure-iot-device azure-i
 bower install
 ```
 
-- Open the `config.json` file and replace the information with your project
+- Open the `config.json` file and replace the information with your project.  See the following for instructions on how to retrieve those values.
 
+    - eventhubName: 
+        - Open the [Classic Azure Management Portal](https://manage.windowsazure.com)
+        - Open the Service Bus namespace you created earlier
+        - Switch to the **EVENT HUBS** page 
+        - You can see and copy the name of your event hub from that page
+    - ehConnString: 
+        - Click on the name of the event hub from above to open it
+        - Click on the "CONNECTION INFORMATION" button along the bottom. 
+        - From there, click the button to copy the readwrite shared access policy connection string.
+    - deviceId:
+        - Use the information on the [Manage IoT Hub](https://github.com/Azure/azure-iot-sdks/blob/master/doc/manage_iot_hub.md) to retrieve your deviceId using either the Device Explorer or iothub-explorer tools.
+    - iotHubConnString: 
+        - In the [Azure Portal](https://portal.azure.com)
+        - Open the IoT Hub you created previously. 
+        - Open the "Settings" blade
+        - Click on the "Shared access policies" setting
+        - Click on the "service" policy
+        - Copy the primary connection string for the policy
+    - storageAccountName:
+        - In the [Azure Portal](https://portal.azure.com)
+        - Open the classic Storage Account you created previously to copy its name
+    - storageAccountKey:
+        - Click on the name of the storage account above to open it
+        - Click the "Settings" button to open the Settings blade
+        - Click on the "Keys" setting
+        - Click the button next to the "PRIMARY ACCESS KEY" top copy it
+    - storageTableName:
+        - This must match the name of the table that was used in the Stream Analytics table storage output above.
+        - If you used the instructions above, you would have named it ***`TemperatureRecords`*** 
+        - If you named it something else, enter the name you used instead.    
+        
 ```
 {
     "port": "3000",
     "eventHubName": "event-hub-name",
     "ehConnString": "Endpoint=sb://name.servicebus.windows.net/;SharedAccessKeyName=readwrite;SharedAccessKey=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=",
-    "deviceConnString": "HostName=name.azure-devices.net;DeviceId=device-id;SharedAccessKey=aaaaaaaaaaaaaaaaaaaaaa==",
-    "iotHubConnString": "HostName=name.azure-devices.net;SharedAccessKeyName=owner;SharedAccessKey=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=",
+    "deviceId": "iot-hub-device-name",
+    "iotHubConnString": "HostName=iot-hub-name.azure-devices.net;SharedAccessKeyName=service;SharedAccessKey=aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa=",
     "storageAcountName": "aaaaaaaaaaa",
     "storageAccountKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa==",
-    "storageTable": "storage-table-name"
+    "storageTable": "TemperatureRecords"
 } 
 ```
 
@@ -451,6 +495,8 @@ Next, we will update your device so that it can interact with all the things you
 You will need to install the Adafruit Huzzah ESP8266 board extension for the Arduino IDE:
 
 - Follow the instructions [here](https://learn.adafruit.com/adafruit-huzzah-esp8266-breakout/using-arduino-ide). There you will see how to add a URL pointing to Adafruit's repository of board extensions, how to make the Adafruit Huzzah ESP8266 board selectable under the **Tools** menu, and how to get the Blink sketch to run.
+- After going through this, you should have a working sample with a blinking light on your board.
+    - If you run into any connection issues, unplug the board, hold the reset button, and while still holding it, plug the board back in. This will flash to board to try again.
 
 
 ## 2.10 Install Library Dependencies
@@ -465,6 +511,10 @@ For this project, we'll also need the the following libraries:
 
  We will also need the latest Azure IoT Library. 
  - Go to https://github.com/stefangordon/AzureIoT/ and follow the instructions under "ESP8266"
+
+***
+**Note**: If you have an earlier version of the IoT library, navigate to your Arduino documents directory. Inside the "Libraries" folder, there will be a number of installed libraries. Simply delete the `AzureIoT` folder.
+***
 
 Lastly we will also need the latest esp8266 Arduino library
 - Visit https://github.com/esp8266/Arduino and follow the instructions for "Using git version"
@@ -485,6 +535,17 @@ static const char* connectionString = "[Device Connection String]";
 - Replace the placeholders with your WiFi name (SSID), WiFi password, and the device connection string you created at the beginning of this tutorial. 
 - Save with `Control-s`
 
+- In the same project, click on the `command_center_https.c` tab to see that file.
+- Look for the following lines of code:
+
+```
+static const char DeviceId[] = "[Device Name]";
+static const char connectionString[] = "[Device Connection String]";
+```
+
+- Replace the placeholders with your Device ID and connection string you created at the beginning of this tutorial. 
+- Save with `Control-s`
+
 ## 2.12 Build Your Command Center Sample
 
 - Build and upload the code using **Sketch -&gt;  Upload**.
@@ -496,8 +557,7 @@ static const char* connectionString = "[Device Connection String]";
 - There should now be a green LED on your Adafruit Huzzah ESP8266. Re-select the COM port if necessary, and then open the Serial Monitor. After 15 seconds you should see a measurements update.
 - Data is now being sent off at regular intervals to Microsoft Azure. When it detects something out of range, you will see the LED you’ve set up turn from green to red!
 
-Head back and run your Node application and you will see the most
-recent updates and any alerts show up there.
+Head back and run your Node application and you will see the most recent updates and any alerts show up there.
 
 ***
 **Note:** Make sure to **stop** your Command Center jobs in Stream Analytics once you have completed this to avoid unnecesary Azure consumption! 
@@ -506,3 +566,15 @@ recent updates and any alerts show up there.
 ## 2.13 Next steps
 
 Please visit our [Azure IoT Dev Center](https://azure.microsoft.com/en-us/develop/iot/) for more samples and documentation on Azure IoT.
+
+# Troubleshooting
+
+## Stopping Provisioned Services
+
+- In the [Microsoft Azure Portal](https://portal.azure.com/)
+    - Click on "All Resources"
+    - For each Stream Analytics and Web App resource:
+        - Click on the resource and click the "Stop" button in the new blade that appears
+    - For each IoT Hub resource:
+        - Click on the resource and click the "Devices" button in the new blade that appears
+        - Click on each device in the list and click the "Disable" button that appears in the new blade at the bottom
