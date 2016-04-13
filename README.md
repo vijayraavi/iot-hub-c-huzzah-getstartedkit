@@ -89,7 +89,7 @@ In this tutorial, you'll be doing the following:
 - Make note of your `device ID`, `Device Key`, and `IoT Hub Hostname` to enter into the code you’ll run on your device later 
 
 ***
-**Note:** The Remote Monitoring solution provisions a set of Azure IoT Services in your Azure account. To avoid unnecessary consumption, you may want to **stop** your remote monitoring solution while you are working on the next steps. 
+**Note:** The Remote Monitoring solution provisions a set of Azure IoT Services in your Azure account. To avoid unnecessary consumption, you may want to **stop** your remote monitoring solution while you are working on the next steps. (See: [Troubleshooting](#troubleshooting))
 ***
 
 - For additional reference, refer to the following:
@@ -200,7 +200,7 @@ static const char* hubSuffix = "azure-devices.net";
 - If the demo is running, you should see the graph change as your data updates in real time!
 
 ***
-**Note:** Make sure to **stop** your remote monitoring solution once you have completed this to avoid unnecesary Azure consumption! 
+**Note:** Make sure to **stop** your remote monitoring solution once you have completed this to avoid unnecessary Azure consumption!  (See: [Troubleshooting](#troubleshooting))
 ***
 
 ## 1.10 Next steps
@@ -395,7 +395,7 @@ WHERE MTemperature>25
 - Back in the** Stream Analytics blade**, start the job by clicking on the **Start **button at the top
 
 ***
-**Note:** Make sure to **stop** your Command Center jobs once you have completed this to avoid unnecesary Azure consumption! 
+**Note:** Make sure to **stop** your Command Center jobs once you have when you take a break or finish to avoid unnecessary Azure consumption!  (See: [Troubleshooting](#troubleshooting))
 ***
 
 ## 2.8 Node Application Setup
@@ -560,7 +560,7 @@ static const char connectionString[] = "[Device Connection String]";
 Head back and run your Node application and you will see the most recent updates and any alerts show up there.
 
 ***
-**Note:** Make sure to **stop** your Command Center jobs in Stream Analytics once you have completed this to avoid unnecesary Azure consumption! 
+**Note:** Make sure to **stop** your Command Center jobs once you have when you finish to avoid unnecessary Azure consumption!  (See: [Troubleshooting](#troubleshooting))
 ***
 
 ## 2.13 Next steps
