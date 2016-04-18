@@ -45,7 +45,7 @@ END_NAMESPACE(WeatherStation);
 
 DEFINE_ENUM_STRINGS(IOTHUB_CLIENT_CONFIRMATION_RESULT, IOTHUB_CLIENT_CONFIRMATION_RESULT_VALUES)
 
-EXECUTE_COMMAND_RESULT TurnFanOn(ContosoAnemometer* device)
+EXECUTE_COMMAND_RESULT TurnFanOff(ContosoAnemometer* device)
 {
     (void)device;
 
@@ -63,7 +63,7 @@ EXECUTE_COMMAND_RESULT TurnFanOn(ContosoAnemometer* device)
     return EXECUTE_COMMAND_SUCCESS;
 }
 
-EXECUTE_COMMAND_RESULT TurnFanOff(ContosoAnemometer* device)
+EXECUTE_COMMAND_RESULT TurnFanOn(ContosoAnemometer* device)
 {
     (void)device;
 
