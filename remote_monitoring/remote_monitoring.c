@@ -7,10 +7,6 @@
 
 
 // Find under Microsoft Azure IoT Suite -> DEVICES -> <your device> -> Device Details and Authentication Keys
-//static const char* deviceId = "[DEVICEID]";
-//static const char* deviceKey = "[KEY 1 or 2]";
-//static const char* hubName = "[HOSTNAME]";
-//static const char* hubSuffix = "azure-devices.net";
 static const char* deviceId = "[device-id]";
 static const char* deviceKey = "[device-key]";
 static const char* hubName = "[hub-name]";
