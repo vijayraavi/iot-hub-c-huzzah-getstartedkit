@@ -11,7 +11,7 @@ This page contains technical information to help you get familiar with Azure IoT
 You can choose to start with whichever tutorial you want to. If you've never worked with Azure IoT services before, we encourage you to start with the Remote Monitoring solution tutorial, because all of the Azure services will be provisioned for you in a built-in preconfigured solution. Then you can explore how each of the services work by going through the second tutorial.
 
  We hope you enjoy the process. Please provide feedback if there's anything that we can improve.
- 
+
 ***
 **Don't have a kit yet?:** Click [here](http://azure.com/iotstarterkits)
 ***
@@ -42,7 +42,7 @@ This tutorial describes the process of taking your Adafruit Huzzah ESP8266 kit, 
 
 In this tutorial, you'll be doing the following:
 - Setting up your environment on Azure using the Microsoft Azure IoT Suite Remote Monitoring preconfigured solution, getting a large portion of the set-up that would be required done in one step.
-- Setting your device and sensors up so that it can communicate with both your computer, and Azure IoT. 
+- Setting your device and sensors up so that it can communicate with both your computer, and Azure IoT.
 - Updating the device code sample to include our connection data and send it to Azure IoT to be viewed remotely.
 
 ## 1.2 Before Starting
@@ -50,17 +50,21 @@ In this tutorial, you'll be doing the following:
 ### 1.2.1 Required Software
 
 - Arduino IDE, version 1.6.8. from www.arduino.cc (Earlier versions will not work with the AzureIoT library)
-- Sensor interface [library](https://github.com/adafruit/Adafruit_BME280_Library/archive/master.zip) from Adafruit 
 
 ### 1.2.2 Required Hardware
 
 - Adafruit Huzzah ESP8266 kit
-  - A microB USB cable
-  - A desktop or laptop computer which can run **Arduino IDE 1.6.8**
+  - Huzzah ESP8266 board
+  - DHT22 Sensor
+  - breadboard
+  - M/M jumper wires
+  - 10k Ohm Resistor (brown, black, orange)
+- A microB USB cable
+- A desktop or laptop computer which can run **Arduino IDE 1.6.8**
 
 ## 1.3 Create a New Azure IoT Suite Remote Monitoring solution and Add Device
 
-- Log in to [Azure IoT Suite](https://www.azureiotsuite.com/)  with your Microsoft account and click **Create a New Preconfigured Solution** 
+- Log in to [Azure IoT Suite](https://www.azureiotsuite.com/)  with your Microsoft account and click **Create a New Preconfigured Solution**
 
 ***
 **Note:** For first time users, click here to get your [Azure free trial](https://azure.microsoft.com/en-us/pricing/free-trial/) which gives you 200USD of credit to get started.
@@ -77,10 +81,10 @@ In this tutorial, you'll be doing the following:
 - Wait for Azure to finish provisioning your IoT suite (this process may take up to 10 minutes), and then click **Launch**
 
 ***
-**Note:** You may be asked to log back in. This is to ensure your solution has proper permissions associated with your account. 
+**Note:** You may be asked to log back in. This is to ensure your solution has proper permissions associated with your account.
 ***
 
-- Open the link to your IoT Suite’s “Solution Dashboard.” You may have been redirected there already. 
+- Open the link to your IoT Suite’s “Solution Dashboard.” You may have been redirected there already.
 - This opens your personal remote monitoring site at the URL _&lt;Your Azure IoT Hub suite name&gt;.azurewebsites.net_ (e.g. _HuzzahSuite.azurewebsites.net_)
 - Click **Add a Device** at the lower left hand corner of your screen
 - Add a new **custom device**
@@ -105,20 +109,23 @@ In this tutorial, you'll be doing the following:
 - Using [this image](https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit/blob/master/img/huzzah_remote_monitoring.png?raw=true) as a reference, connect your DHT22 and Adafruit Huzzah ESP8266 to the breadboard
 
 ***
-**Note:** Column on the left corresponds to sensor and on the Right to board. On the image, the board is place between 10 and 30 and sensor between 1 and 9.
+**Note:** Column on the left corresponds to sensor and on the Right to board. On the image, the board is place between 10 and 30, with the RST pin connected to row 30, and sensor between 1 and 9, with the VDD pin connected to the row 1.
 ***
+- Connect the board, sensor and parts on the breadboard:
+
+| Start                   | End                    | Connector     |
+| ----------------------- | ---------------------- | ------------: |
+| Huzzah RST (Pin 30i)    | Huzzah CHPD (Pin 15i)  | Huzzah ESP8266 |
+| DHT22 (Pin 1J)          | DHT22 (Pin 4J)         | DHT22         |
+| Pin 2I                  | Pin 1F                 | 10k Ohm Resistor  |
+
 - For sensor pins, we will use the following wiring:
 
 | Start                   | End                    | Cable Color   |
 | ----------------------- | ---------------------- | ------------: |
-| VDD (Pin 1G)            | Pin 29J                | Red cable   |
-| DATA (Pin 2G)           | Pin 17B                | White cable  |
+| VDD (Pin 1G)            | Pin 29J                | Red cable     |
+| DATA (Pin 2G)           | Pin 17B                | White cable   |
 | GND (Pin 4G)            | Pin 27J                | Black cable   |
-
-| Start                   | End                    | Connector     |
-| ----------------------- | ---------------------- | ------------: |
-| DHT22 (Pin 1J)          | DHT22 (Pin 4J)         | DHT22         |
-| NULL (Pin 2I)           | Pin 1F                 | 10k Ohm Resistor  |
 
 
 - For more information, see: [Adafruit DHT22 sensor setup](https://learn.adafruit.com/dht/connecting-to-a-dhtxx-sensor).
@@ -130,33 +137,34 @@ In this tutorial, you'll be doing the following:
 You will need to install the Adafruit Huzzah ESP8266 board extension for the Arduino IDE:
 
 - Follow the instructions [here](https://learn.adafruit.com/adafruit-huzzah-esp8266-breakout/using-arduino-ide). There you will see how to add a URL pointing to Adafruit's repository of board extensions, how to make the Adafruit Huzzah ESP8266 board selectable under the **Tools** menu, and how to get the Blink sketch to run.
+  - **Note**: There are two versions of Huzzah board, one with microB USB connector and other with a USB cable connected directly to the board. Both works properly with Azure IoT.
+  - Boards with microB connector don't have the GPIO0 button. So, in the 'Blink Test', ignore the steps to put the board in the bootload mode, and go directly to the step to upload the sketch via the IDE.
 - After going through this, you should have a working sample with a blinking light on your board.
     - If you run into any connection issues, unplug the board, hold the reset button, and while still holding it, plug the board back in. This will flash to board to try again.
 
 ## 1.6 Install Library Dependencies
 
-For this project, we'll also need the the following libraries:
+For this project, we'll also need the following libraries:
 
  - DHT Sensor Library
  - Adafruit DHT Unified
- 
+
  To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
 
 The Adafruit Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
 
- We will also need the latest Azure IoT Library. 
+ We will also need the latest Azure IoT Library.
  - Download the [library as a zip](https://github.com/arduino-libraries/AzureIoT/archive/master.zip)
  - Extract to `C:\Users\[username]\Documents\Arduino\libraries` (remove any other copies of the library)
- 
+
 ***
 **Note**: If you have an earlier version of the IoT library, navigate to your Arduino documents directory. Inside the "Libraries" folder, there will be a number of installed libraries. Simply delete the `AzureIoT` folder.
 ***
 
 Lastly we will also need the latest esp8266 Arduino library
 - Visit https://github.com/esp8266/Arduino and follow the instructions for "Using git version"
-  - **Make sure you're using Python 2.7.x!**
 
-## 1.7 Modify the Remote Monitoring sample 
+## 1.7 Modify the Remote Monitoring sample
 
 - Unzip the example code, and double-click the file `remote_monitoring.ino` to open the project in the Arduino IDE.
 - You will be prompted to creat a folder. Do this, and move the other files in the folder into the newly created child folder
@@ -184,15 +192,24 @@ static const char* hubSuffix = "azure-devices.net";
 
 ## 1.8 Build Your Remote Monitoring Sample
 
-- Double-click the reset button (located by the USB input) on the Adafruit Huzzah ESP8266 to put it in boot-loader mode. The red LED will fade in and out to show bootload mode.
-- On windows, the COM port will disconnect, and a new one will appear. Use **Tools -&gt; Port -&gt; COM** to re-select it.
-- Build and upload the code using **Sketch -&gt;  Upload**.
+- Select the COM port on the Arduino IDE. Use **Tools -&gt; Port -&gt; COM** to select it.
+- Build the code using **Sketch -&gt; Verify/Compile**.
+  - This step is not really necessary, but can provide you a good feedback about what you've done up to now.
+  - If your code is correct and all libraries was properly installed, you will receive something like the follow message in the IDE.
+
+  ```
+  Sketch uses 376,409 bytes (36%) of program storage space. Maximum is 1,044,464 bytes.
+  Global variables use 50,220 bytes (61%) of dynamic memory, leaving 31,700 bytes for
+    local variables. Maximum is 81,920 bytes.
+  ```
+
+- Now you are ready to build and upload the code. Use **Sketch -&gt;  Upload** on Arduino IDE.
 
 ***
 **Note**: As of 1.6.8, the Arduino IDE doesn't properly show "Upload Completed", even when it succeeds.
 ***
 
-- There should now be a green LED on your Adafruit Huzzah ESP8266. Re-select the COM port if necessary, and then open the Serial Monitor. After 15 seconds you should see a measurements update.
+- There should now be a green LED on your Adafruit Huzzah ESP8266. Re-select the COM port if necessary, and then open the serial. On the Arduino IDE, use **Tools -&gt; Serial Monitor**. After 15 seconds you should see a measurements update.
 
 ***
 **Note**: When first starting you will likely see a “Fetching NTP epoch time failed” error – This is normal, and it trying to sync with Azure. This can take even up to 30 seconds to find a NTP server to sync with. One it is synced, it should start transmitting from there.
@@ -238,7 +255,7 @@ This tutorial describes the process of taking your Microsoft Azure IoT Starter K
 ## 2.1 Tutorial Overview
 
 This tutorial has the following steps:
-- Provision an IoT Hub instance on Microsoft Azure and adding your device. 
+- Provision an IoT Hub instance on Microsoft Azure and adding your device.
 - Prepare the device, get connected to the device, and set it up so that it can read sensor data.
 - Configure your Microsoft Azure IoT services by adding Event Hub, Storage Account, and Stream Analytics resources.
 - Prepare your local web solution for monitoring and sending commands to your device.
@@ -253,12 +270,20 @@ The end result will be a functional command center where you can view the histor
 - [Git](https://git-scm.com/downloads) - For cloning the required repositories
 - Node.js - For the Node application, we will go over this later.
 - Arduino IDE, version 1.6.8. (Earlier versions will not work with the Azure IoT library)
-- Sensor interface [library] (https://github.com/adafruit/Adafruit_DHT22_Library/archive/master.zip) from Adafruit. 
+- Sensor interface [library](https://github.com/adafruit/Adafruit_DHT22_Library/archive/master.zip) from Adafruit.
 
 ### 2.2.2 Required Hardware
 - Adafruit Huzzah ESP8266 IoT kit
-  - A microB USB cable
-  - A desktop or laptop computer which can run **Arduino IDE 1.6.8**
+  - Huzzah ESP8266 board
+  - DHT22 Sensor
+  - breadboard
+  - M/M jumper wires
+  - 10k Ohm Resistor (brown, black, orange)
+  - 2x 330 Ohm Resistor (orange, orange, brown)
+  - Green LED
+  - Red LED
+- A microB USB cable
+- A desktop or laptop computer which can run **Arduino IDE 1.6.8**
 
 ## 2.3 Connect the Sensor Module to your Device
 
@@ -268,24 +293,29 @@ The end result will be a functional command center where you can view the histor
 **Note:** Column on the left corresponds to sensor and on the Right to board. On the image, the board is place between 10 and 30 and sensor between 1 and 9. Additionally, when counting the - pins, start from the right and count in, as these do not align with the numbers indicated on the board.
 ***
 
-
-| Start                   | End                    | Cable Color   |
-| ----------------------- | ---------------------- | ------------ |
-| VDD (Pin 1G)            | Pin 29J             | Red cable    |
-| DATA (Pin 2G)           | Pin 17B             | White cable  |
-| GND (Pin 4G)            | Pin 9-              | Black cable  |
-| GND (Pin 27J)           | Pin 25-             | Black cable  |
-| Pin 22B                 | Pin 6A              | Red cable    |
-| Pin 21B                 | Pin 3A              | Green cable    |
+- Connect the board, sensor, and parts on the breadboard:
 
 | Start                   | End                    | Connector     |
 | ----------------------- | ---------------------- | ------------ |
+| Huzzah RST (Pin 30i)    | Huzzah CHPD (Pin 15i)  | Huzzah ESP8266 |
 | DHT22 (Pin 1J)          | DHT22 (Pin 4J)         | DHT22         |
 | NULL (Pin 2I)           | Pin 1F                 | 10k Ohm Resistor  |
 | Pin 2-                  | Pin 2A                 | 330 Ohm Resistor  |
 | Pin 4-                  | Pin 5A                 | 330 Ohm Resistor  |
 | GRN LED (Pin 2C)        | Pin 3C                 | Green LED  |
 | RED LED (Pin 5C)        | Pin 6C                 | Red LED  |
+
+- For the pins, we will use the following wiring:
+
+| Start                   | End                    | Cable Color   | Connected to |
+| ----------------------- | ---------------------- | ------------ | ------------- |
+| VDD (Pin 1G)            | Pin 29J             | Red cable    | DHT22 |
+| DATA (Pin 2G)           | Pin 17B             | White cable  | DHT22 |
+| GND (Pin 4G)            | Pin 9-              | Black cable  | DHT22 |
+| GND (Pin 27J)           | Pin 25-             | Black cable  | Huzzah ESP8266 |
+| Pin 22B                 | Pin 6A              | Red cable    | Red LED  |
+| Pin 21B                 | Pin 3A              | Green cable    | Green LED  |
+
 
 
 - For more information, see: [Adafruit DHT22 sensor setup](https://learn.adafruit.com/dht/connecting-to-a-dhtxx-sensor).
@@ -370,7 +400,7 @@ INTO   
     TemperatureAlertToEventHub
 FROM
     TempSensors
-WHERE MTemperature>25 
+WHERE MTemperature>25
 ```
 
 ***
@@ -411,12 +441,12 @@ WHERE MTemperature>25
    - Windows and Mac installers can be found here: https://nodejs.org/en/download/
      - Ensure that you select the options to install NPM and add to your PATH.
    - Linux users can use the commands:
-   
+
 ```
 sudo apt-get update
 sudo apt-get install nodejs
 sudo apt-get install npm
-``` 
+```
 
 - Additionally, make sure you have cloned the project repository locally by issuing the following command in your desired directory:
 
@@ -428,26 +458,26 @@ git clone https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit.git
 
 ```
 npm install -g bower
-npm install 
+npm install
 bower install
 ```
 
 - Open the `config.json` file and replace the information with your project.  See the following for instructions on how to retrieve those values.
 
-    - eventhubName: 
+    - eventhubName:
         - Open the [Classic Azure Management Portal](https://manage.windowsazure.com)
         - Open the Service Bus namespace you created earlier
-        - Switch to the **EVENT HUBS** page 
+        - Switch to the **EVENT HUBS** page
         - You can see and copy the name of your event hub from that page
-    - ehConnString: 
+    - ehConnString:
         - Click on the name of the event hub from above to open it
-        - Click on the "CONNECTION INFORMATION" button along the bottom. 
+        - Click on the "CONNECTION INFORMATION" button along the bottom.
         - From there, click the button to copy the readwrite shared access policy connection string.
     - deviceId:
         - Use the information on the [Manage IoT Hub](https://github.com/Azure/azure-iot-sdks/blob/master/doc/manage_iot_hub.md) to retrieve your deviceId using either the Device Explorer or iothub-explorer tools.
-    - iotHubConnString: 
+    - iotHubConnString:
         - In the [Azure Portal](https://portal.azure.com)
-        - Open the IoT Hub you created previously. 
+        - Open the IoT Hub you created previously.
         - Open the "Settings" blade
         - Click on the "Shared access policies" setting
         - Click on the "service" policy
@@ -462,9 +492,9 @@ bower install
         - Click the button next to the "PRIMARY ACCESS KEY" top copy it
     - storageTableName:
         - This must match the name of the table that was used in the Stream Analytics table storage output above.
-        - If you used the instructions above, you would have named it ***`TemperatureRecords`*** 
+        - If you used the instructions above, you would have named it ***`TemperatureRecords`***
         - If you named it something else, enter the name you used instead.    
-        
+
 ```
 {
     "port": "3000",
@@ -475,7 +505,7 @@ bower install
     "storageAcountName": "aaaaaaaaaaa",
     "storageAccountKey": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa==",
     "storageTable": "TemperatureRecords"
-} 
+}
 ```
 
 - Now it is time to run it! Enter the following command:
@@ -489,10 +519,10 @@ node server.js
 ```
 app running on http://localhost:3000
 client connected
-``` 
+```
 
 - Visit the url in your browser and you will see the Node app running!
- 
+
 To deploy this project to the cloud using Azure, you can reference [Creating a Node.js web app in Azure App Service](https://azure.microsoft.com/en-us/documentation/articles/web-sites-nodejs-develop-deploy-mac/).
 
 Next, we will update your device so that it can interact with all the things you just created.
@@ -502,6 +532,7 @@ Next, we will update your device so that it can interact with all the things you
 You will need to install the Adafruit Huzzah ESP8266 board extension for the Arduino IDE:
 
 - Follow the instructions [here](https://learn.adafruit.com/adafruit-huzzah-esp8266-breakout/using-arduino-ide). There you will see how to add a URL pointing to Adafruit's repository of board extensions, how to make the Adafruit Huzzah ESP8266 board selectable under the **Tools** menu, and how to get the Blink sketch to run.
+  - As we explained on the item 1.5, boards with microB connector don't have the GPIO0 button. So, in the 'Blink Test', ignore the steps to put the board in the bootload mode, and go directly to the step to upload the sketch via the IDE.
 - After going through this, you should have a working sample with a blinking light on your board.
     - If you run into any connection issues, unplug the board, hold the reset button, and while still holding it, plug the board back in. This will flash to board to try again.
 
@@ -513,10 +544,10 @@ For this project, we'll also need the the following libraries:
  - DHT Sensor Library
  - Adafruit Sensor Library
  - Adafruit DHT Unified
- 
+
  To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
 
- We will also need the latest Azure IoT Library. 
+ We will also need the latest Azure IoT Library.
  - Go to https://github.com/stefangordon/AzureIoT/ and follow the instructions under "ESP8266"
 
 ***
@@ -525,8 +556,7 @@ For this project, we'll also need the the following libraries:
 
 Lastly we will also need the latest esp8266 Arduino library
 - Visit https://github.com/esp8266/Arduino and follow the instructions for "Using git version"
-  - **Make sure you're using Python 2.7.x!**
-  
+
 ## 2.11 Modify the Command Center sample
 
 - Unzip the example code, and double-click the file `command_center.ino` to open the project in the Arduino IDE.
