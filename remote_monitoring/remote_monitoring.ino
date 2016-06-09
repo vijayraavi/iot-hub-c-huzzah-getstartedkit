@@ -11,19 +11,40 @@
 
 #include "remote_monitoring.h"
 
-char ssid[] = "[Your WiFi network SSID or name]";
-char pass[] = "[Your WiFi network WPA password or WEP key]";
+static char ssid[] = "[Your WiFi network SSID or name]";
+static char pass[] = "[Your WiFi network WPA password or WEP key]";
 
-WiFiClientSecure sslClient;
+#ifdef ARDUINO_ARCH_ESP8266
+static WiFiClientSecure sslClient; // for ESP8266
+#elif ARDUINO_SAMD_FEATHER_M0
+static Adafruit_WINC1500SSLClient sslClient; // for Adafruit WINC1500
+#else
+static WiFiSSLClient sslClient;
+#endif
 
+
+/*
+ * The new version of AzureIoTHub library change the AzureIoTHubClient signature.
+ * As a temporary solution, we will test the definition of AzureIoTHubVersion, which is only defined 
+ *    in the new AzureIoTHub library version. Once we totally deprecate the last version, we can take 
+ *    the ‘#ifdef’ out.
+ */
+#ifdef AzureIoTHubVersion
+static AzureIoTHubClient iotHubClient;
+#else
 AzureIoTHubClient iotHubClient(sslClient);
+#endif
 
 void setup() {
     initSerial();
     initWifi();
     initTime();
 
+#ifdef AzureIoTHubVersion
+    iotHubClient.begin(sslClient);
+#else
     iotHubClient.begin();
+#endif
 }
 
 void loop() {
