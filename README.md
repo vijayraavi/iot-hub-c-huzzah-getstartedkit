@@ -230,7 +230,7 @@ static const char* hubSuffix = "azure-devices.net";
 
 Please visit our [Azure IoT Dev Center](https://azure.microsoft.com/en-us/develop/iot/) for more samples and documentation on Azure IoT.
 
-<a name="identify-temperature-anomalies" />
+<a name="using-microsoft-azure-iot" />
 # Using Microsoft Azure IoT Services to Identify Temperature Anomalies
 
 This tutorial describes the process of taking your Microsoft Azure IoT Starter Kit for the Adafruit Huzzah ESP8266, and using it to develop a temperature and humidity reader that can communicate with the cloud using the  Microsoft Azure IoT SDK.
