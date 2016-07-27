@@ -149,14 +149,12 @@ For this project, we'll also need the following libraries:
 
  - DHT Sensor Library
  - Adafruit DHT Unified
+ - AzureIoTHub
 
  To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
 
 The Adafruit Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
 
- We will also need the latest Azure IoT Library.
- - Download the [library as a zip](https://github.com/arduino-libraries/AzureIoT/archive/master.zip)
- - Extract to `C:\Users\[username]\Documents\Arduino\libraries` (remove any other copies of the library)
 
 ***
 **Note**: If you have an earlier version of the IoT library, navigate to your Arduino documents directory. Inside the "Libraries" folder, there will be a number of installed libraries. Simply delete the `AzureIoT` folder.
