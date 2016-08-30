@@ -284,6 +284,8 @@ The end result will be a functional command center where you can view the histor
 
 ***
 **Note:** Column on the left corresponds to sensor and on the Right to board. On the image, the board is place between 10 and 30 and sensor between 1 and 9. Additionally, when counting the - pins, start from the right and count in, as these do not align with the numbers indicated on the board.
+
+**Note:** The resistor can change a little from one kit to another, e.g. it can be 330 Ohm (orange, orange, brown) or 560 Ohm (green, blue, brown). Both will work with success.
 ***
 
 - Connect the board, sensor, and parts on the breadboard:
