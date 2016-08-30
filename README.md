@@ -539,6 +539,8 @@ For this project, we'll also need the the following libraries:
  - AzureIoTHub
 
  To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
+ 
+ The Adafruit Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
 
 ## 2.11 Modify the Command Center sample
 
