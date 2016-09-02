@@ -7,6 +7,25 @@
 #include <time.h>
 #include "command_center_http.h"
 
+#ifdef ARDUINO_ARCH_ESP8266
+static WiFiClientSecure sslClient; // for ESP8266
+#elif ARDUINO_SAMD_FEATHER_M0
+static Adafruit_WINC1500SSLClient sslClient; // for Adafruit WINC1500
+#else
+static WiFiSSLClient sslClient;
+#endif
+
+/*
+ * The new version of AzureIoTHub library changed the AzureIoTHubClient signature.
+ * As a temporary solution, we will test the definition of AzureIoTHubVersion, which is only defined 
+ *    in the new AzureIoTHub library version. Once we totally deprecate the last version, we can take 
+ *    the ‘#ifdef’ out.
+ */
+#ifdef AzureIoTHubVersion
+static AzureIoTHubClient iotHubClient;
+#else
+AzureIoTHubClient iotHubClient(sslClient);
+#endif
 
 const char ssid[] = "[SSID]"; //  your WiFi SSID (name)
 const char pass[] = "[PASSWORD]";    // your WiFi password (use for WPA, or use as key for WEP)
@@ -20,13 +39,12 @@ void setup() {
     initWifi();
     initTime();
 
-    // This function doesn't exit.
-    simplesample_http_run();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void loop() {
-  // Not used.
+    // This function doesn't exit.
+    simplesample_http_run();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
