@@ -237,7 +237,7 @@ This tutorial describes the process of taking your Microsoft Azure IoT Starter K
 - [2.4 Create a New Microsoft Azure IoT Hub and Add Device](#24-create-a-new-microsoft-azure-iot-hub-and-add-device)
 - [2.5 Create an Event Hub](#25-create-an-event-hub)
 - [2.6 Create a Storage Account for Table Storage](#26-create-a-storage-account-for-table-storage)
-- [2.7 Create a Stream Analytics job to Save IoT Data in Table Storage and Raise Alerts](#26-create-a-stream-analytics-job-to-save-iot-data-in-table-storage-and-raise-alerts)
+- [2.7 Create a Stream Analytics job to Save IoT Data in Table Storage and Raise Alerts](#27-create-a-stream-analytics-job-to-save-iot-data-in-table-storage-and-raise-alerts)
 - [2.8 Node Application Setup](#28-node-application-setup)
 - [2.9 Add the Adafruit Huzzah ESP8266 to the Arduino IDE](#29-add-the-adafruit-huzzah-esp8266-to-the-arduino-ide)
 - [2.10 Install Library Dependencies](#210-install-library-dependencies)
@@ -329,20 +329,24 @@ Event Hub is an Azure IoT publish-subscribe service that can ingest millions of 
 
 - Log on to the [Microsoft Azure Portal](https://portal.azure.com/)
 - Click on **New** -&gt; **Internet of Things**-&gt; **Event Hub**
-- After being redirected, click "Custom Create", Enter the following settings for the Event Hub (use a name of your choice for the event hub and the namespace):
-    - Event Hub Name: `huzzahEventHub`
-    - Region: `Your choice`
+- Enter the following settings for the Event Hub Namespace (use a name of your choice for the event hub and the namespace):
+    - Name: `Your choice` (we chose `Huzzah2Suite`)
+    - Pricing Tier: `Basic`
     - Subscription: `Your choice`
-    - Namespace Name: `Your Project Namespace, in our case “Huzzah2Suite”`
-- Click the **arrow** to continue.
-- Choose to create **4** partitions and retain messages for **7** days.
-- Click the **check** at the bottom right hand corner to create your event hub.
-- Click on your `Huzzah2Suite` service bus (what you named your service bus)
-- Click on the **Event Hubs** tab
+    - Resource Group: `Your choice`
+    - Location: `Your choice`
+- Click on **Create**
+- Wait until the Event Hub Namespace is created, and then create an Event Hub using the following steps:
+    - Click on your `Huzzah2Suite` Event Hub Namespace (or pick any other name that you used)
+    - Click the **Add Event Hub** 
+    - Name: `huzzahEventHub`
+- Click on **Create**
+- Wait until the new Event Bus is created
+- Click on the **Event Hubs** arrow in the **Overview** tab (might require a few clicks, until the UI is updated)
 - Select the `huzzahEventHub` eventhub and go in the **Configure** tab in the **Shared Access Policies** section, add a new policy:
     - Name = `readwrite`
     - Permissions = `Send, Listen`
-- Click **Save** at the bottomof the page, then click the **Dashboard** tab near the top and click on **Connection Information** at the bottom
+- Click **Save** at the bottom of the page, then click the **Dashboard** tab near the top and click on **Connection Information** at the bottom
 - _Copy down the connection string for the `readwrite` policy you created._
 - From the your IoT Hub Settings (The Resource that has connected dots) on the [Microsoft Azure Portal](https://portal.azure.com/), click the **Messaging blade** (found in your settings), write down the _Event Hub-compatible name_
 - Look at the _Event-hub-compatible Endpoint_, and write down this part: sb://**thispart**.servicebus.windows.net/ we will call this one the _IoTHub EventHub-compatible namespace_
@@ -351,8 +355,13 @@ Event Hub is an Azure IoT publish-subscribe service that can ingest millions of 
 Now we will create a service to store our data in the cloud.
 - Log on to the [Microsoft Azure Portal](https://portal.azure.com/)
 - In the menu, click **New** and select **Data + Storage** then **Storage Account**
-- Choose **Classic** for the deployment model and click on **Create**
-- Enter the name of your choice (We chose `huzzahstorage`) for the account name, `Standard-RAGRS` for the type, choose your subscription, select the resource group you created earlier, then click on **Create**
+    - Name: `Your choice` (we chose `huzzahstorage`)
+    - Deployment model: `Classic`
+    - Performace: `Standard`
+    - Replication: `Read-access geo-redundant storage (RA-GRS)`
+    - Subscription: `Your choice`
+    - Resource Group: `Your choice`
+    - Location: `Your choice`
 - Once the account is created, find it in the **resources blade** or click on the **pinned tile**, go to **Settings**, **Keys**, and write down the _primary connection string_.
 
 ## 2.7 Create a Stream Analytics job to Save IoT Data in Table Storage and Raise Alerts
@@ -360,7 +369,7 @@ Stream Analytics is an Azure IoT service that streams and analyzes data in the c
 
 - Log on to the [Microsoft Azure Portal](https://portal.azure.com/)
 - In the menu, click **New**, then click **Internet of Things**, and then click **Stream Analytics Job**
-- Enter a name for the job (We chose “HuzzahStorageJob”), a preferred region, then choose your subscription. At this stage you are also offered to create a new or to use an existing resource group. Choose the resource group you created earlier (In our case, `Huzzah2Suite`).
+- Enter a name for the job (We chose “HuzzahStorageJob”), a preferred region, then choose your subscription. At this stage you are also offered to create a new or to use an existing resource group. Choose the resource group you created earlier.
 - Once the job is created, open your **Job’s blade** or click on the **pinned tile**, and find the section titled _“Job Topology”_ and click the **Inputs** tile. In the Inputs blade, click on **Add**
 - Enter the following settings:
     - Input Alias = _`TempSensors`_
@@ -406,6 +415,7 @@ WHERE MTemperature>25
 - Enter the following settings then click on **Create**:
     - Output Alias = _`TemperatureTableStorage`_
     - Sink = _`Table Storage`_
+    - Subscription = _`Provide table settings storage manually`_
     - Storage account = _`huzzahstorage`_ (The storage you made earlier)
     - Storage account key = _(The primary key for the storage account made earlier, can be found in Settings -&gt; Keys -&gt; Primary Access Key)_
     - Table Name = _`TemperatureRecords`_*Your choice - If the table doesn’t already exist, Local Storage will create it
@@ -415,7 +425,8 @@ WHERE MTemperature>25
 - Back to the **Stream Analytics Job blade**, click on the **Outputs tile**, and in the **Outputs blade**, click on **Add**
 - Enter the following settings then click on **Create**:
     - Output Alias = _`TemperatureAlertToEventHub`_
-    - Source = _`Event Hub`_
+    - Sink = _`Event Hub`_
+    - Subscription = _`Provide table settings storage manually`_
     - Service Bus Namespace = _`Huzzah2Suite`_
     - Event Hub Name = _`huzzaheventhub`_ (The Event Hub you made earlier)
     - Event Hub Policy Name = _`readwrite`_
@@ -559,7 +570,7 @@ static const char* connectionString = "[Device Connection String]";
 - Replace the placeholders with your WiFi name (SSID), WiFi password, and the device connection string you created at the beginning of this tutorial. 
 - Save with `Control-s`
 
-- In the same project, click on the `command_center_https.c` tab to see that file.
+- In the same project, click on the `command_center_http.c` tab to see that file.
 - Look for the following lines of code:
 
 ```
