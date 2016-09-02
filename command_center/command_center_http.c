@@ -118,7 +118,7 @@ static void sendMessage(IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle, const unsign
 /*this function "links" IoTHub to the serialization library*/
 static IOTHUBMESSAGE_DISPOSITION_RESULT IoTHubMessage(IOTHUB_MESSAGE_HANDLE message, void* userContextCallback)
 {
-    LogInfo("Command Recieved\r\n");
+    LogInfo("Command Received\r\n");
     IOTHUBMESSAGE_DISPOSITION_RESULT result;
     const unsigned char* buffer;
     size_t size;
