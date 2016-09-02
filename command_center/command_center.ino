@@ -6,6 +6,7 @@
 #include <ESP8266WiFi.h>
 #include <time.h>
 #include "command_center_http.h"
+#include <AzureIoTHub.h>
 
 #ifdef ARDUINO_ARCH_ESP8266
 static WiFiClientSecure sslClient; // for ESP8266
