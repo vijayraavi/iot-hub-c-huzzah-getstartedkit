@@ -153,7 +153,7 @@ For this project, we'll also need the following libraries:
  - Adafruit DHT Unified
  - AzureIoTHub
 
- To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
+To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
 
 The Adafruit Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
 
@@ -272,7 +272,7 @@ The end result will be a functional command center where you can view the histor
   - breadboard
   - M/M jumper wires
   - 10k Ohm Resistor (brown, black, orange)
-  - 2x 330 Ohm Resistor (orange, orange, brown)
+  - 2x 330 Ohm Resistor (orange, orange, brown) or 2x 560 Ohm Resistor (green, blue, brown)
   - Green LED
   - Red LED
 - A microB USB cable
@@ -416,9 +416,9 @@ WHERE MTemperature>25
     - Output Alias = _`TemperatureTableStorage`_
     - Sink = _`Table Storage`_
     - Subscription = _`Provide table settings storage manually`_
-    - Storage account = _`huzzahstorage`_ (The storage you made earlier)
+    - Storage account = _`huzzahstorage`_ (The storage account you created earlier)
     - Storage account key = _(The primary key for the storage account made earlier, can be found in Settings -&gt; Keys -&gt; Primary Access Key)_
-    - Table Name = _`TemperatureRecords`_*Your choice - If the table doesn’t already exist, Local Storage will create it
+    - Table Name = _`TemperatureRecords`_ (Your choice - If the table doesn’t already exist, Local Storage will create it)
     - Partition Key = _`DeviceId`_
     - Row Key = _`EventTime`_
     - Batch size = _`1`_
@@ -430,7 +430,7 @@ WHERE MTemperature>25
     - Service Bus Namespace = _`Huzzah2Suite`_
     - Event Hub Name = _`huzzaheventhub`_ (The Event Hub you made earlier)
     - Event Hub Policy Name = _`readwrite`_
-    - Event Hub Policy Key = _Primary Key for readwrite Policy name (That's the one you wrote down after creating the event hub)_
+    - Event Hub Policy Key = _`Primary Key for readwrite Policy name`_ (That's the one you wrote down after creating the event hub)
     - Partition Key Column = _`0`_
     - Event Serialization format = _`JSON`_
     - Encoding = _`UTF-8`_
@@ -551,9 +551,9 @@ For this project, we'll also need the the following libraries:
  - Adafruit DHT Unified
  - AzureIoTHub
 
- To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
+To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
  
- The Adafruit Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
+The Adafruit Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
 
 ## 2.11 Modify the Command Center sample
 
