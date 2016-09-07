@@ -613,3 +613,10 @@ Please visit our [Azure IoT Dev Center](https://azure.microsoft.com/en-us/develo
     - For each IoT Hub resource:
         - Click on the resource and click the "Devices" button in the new blade that appears
         - Click on each device in the list and click the "Disable" button that appears in the new blade at the bottom
+
+## Data is not showing up in the Node.js application
+
+In this section we will explain how to see the data flowing from the Arduino application to the Node.js application:
+- Arduino application: In the Arduino IDE go to Tools -> Serial Monitor
+- IoT Hub: Use [Device Explorer](https://github.com/Azure/azure-iot-sdks/blob/master/tools/DeviceExplorer/doc/how_to_use_device_explorer.md)
+- Azure Storage Table: Use [Azure Storage Explorer](http://storageexplorer.com/)
