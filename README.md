@@ -181,6 +181,10 @@ static const char* hubName = "[hub-name]";
 static const char* hubSuffix = "azure-devices.net";
 ```
 
+***
+**Note**: The "IoT Hub Hostname" in the Remote Monitoring console includes the suffix "azure-devices.net". When you paste the value for hubName you should not include this suffix. For example, if the "IoT Hub Hostname" is "my-device.azure-devices.net", then hubName should be set to "my-device" hubSuffix should be set to "azure-devices.net".
+***
+
 - Save with `Control-s`
 
 ## 1.8 Build Your Remote Monitoring Sample
