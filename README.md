@@ -357,7 +357,7 @@ Now we will create a service to store our data in the cloud.
 - In the menu, click **New** and select **Data + Storage** then **Storage Account**
     - Name: `Your choice` (we chose `huzzahstorage`)
     - Deployment model: `Classic`
-    - Performace: `Standard`
+    - Performance: `Standard`
     - Replication: `Read-access geo-redundant storage (RA-GRS)`
     - Subscription: `Your choice`
     - Resource Group: `Your choice`
@@ -479,8 +479,8 @@ bower install
         - Click on the name of the event hub from above to open it
         - Click on the "CONNECTION INFORMATION" button along the bottom.
         - From there, click the button to copy the readwrite shared access policy connection string.
-    - deviceId:
-        - Use the information on the [Manage IoT Hub](https://github.com/Azure/azure-iot-sdks/blob/master/doc/manage_iot_hub.md) to retrieve your deviceId using either the Device Explorer or iothub-explorer tools.
+    - deviceConnString:
+        - Use the information on the [Manage IoT Hub](https://github.com/Azure/azure-iot-sdks/blob/master/doc/manage_iot_hub.md) to retrieve your device connection string using either the Device Explorer or iothub-explorer tools.
     - iotHubConnString:
         - In the [Azure Portal](https://portal.azure.com)
         - Open the IoT Hub you created previously.
