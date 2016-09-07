@@ -254,6 +254,11 @@ This tutorial has the following steps:
 - Prepare your local web solution for monitoring and sending commands to your device.
 - Update the sample code to respond to commands and include the data from our sensors, sending it to Microsoft Azure to be viewed remotely.
 
+Here is a breakdown of the data flow:
+- The application running on the Huzzah Feather will get temperature data from the temperature sensor and it will send them to the IoT Hub
+- A Stream Analytics job will read the data from IoT Hub and write them to an Azure Storage Table. Also, if an anomaly is detected, then this job will write data to an Event Hub
+- The Node.js application that is running on your computers will read the data from the Azure Storage Table and the Event Hub and will present them to the user
+
 The end result will be a functional command center where you can view the history of your device's sensor data, a history of alerts, and send commands back to the device.
 
 ## 2.2 Before Starting
@@ -591,6 +596,7 @@ static const char connectionString[] = "[Device Connection String]";
 
 - There should now be a green LED on your Adafruit Huzzah ESP8266. Re-select the COM port if necessary, and then open the Serial Monitor. After 15 seconds you should see a measurements update.
 - Data is now being sent off at regular intervals to Microsoft Azure. When it detects something out of range, you will see the LED you’ve set up turn from green to red!
+- You can click the green button (labeled "Turn on") and the red button (labeled "Turn off") in the application to toggle the green and red LEDs in your kit.
 
 Head back to your Node application and you will have a fully functional command center, complete with a history of sensor data, alerts that display when the temperature got outside a certain range, and commands that you can send to your device remotely.
 
