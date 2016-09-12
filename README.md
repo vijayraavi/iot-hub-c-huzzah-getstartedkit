@@ -155,7 +155,7 @@ For this project, we'll also need the following libraries:
 
 To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
 
-The Adafruit Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
+The Adafruit Unified Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
 
 ## 1.7 Modify the Remote Monitoring sample
 
@@ -206,7 +206,7 @@ static const char* hubSuffix = "azure-devices.net";
 **Note**: As of 1.6.8, the Arduino IDE doesn't properly show "Upload Completed", even when it succeeds.
 ***
 
-- There should now be a green LED on your Adafruit Huzzah ESP8266. Re-select the COM port if necessary, and then open the serial. On the Arduino IDE, use **Tools -&gt; Serial Monitor**. After 15 seconds you should see a measurements update.
+- There should now be a blue blinking LED on your Adafruit Huzzah ESP8266. After the deployment is done and you see 100% in the output console, then go to **Tools -&gt; Serial Monitor** in the Arduino IDE to watch the live data being sent. After 15 seconds you should see a measurements update.
 
 ***
 **Note**: When first starting you will likely see a “Fetching NTP epoch time failed” error – This is normal, and it trying to sync with Azure. This can take even up to 30 seconds to find a NTP server to sync with. One it is synced, it should start transmitting from there.
@@ -561,8 +561,8 @@ For this project, we'll also need the the following libraries:
  - AzureIoTHub
 
 To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
- 
-The Adafruit Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
+
+The Adafruit Unified Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
 
 ## 2.11 Modify the Command Center sample
 
