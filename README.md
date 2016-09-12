@@ -158,11 +158,8 @@ To install them, click on the `Sketch -> Include Library -> Manage Libraries`. S
 The Adafruit Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
 
 ## 1.7 Modify the Remote Monitoring sample
-- Clone the project repository locally by issuing the following command in your desired directory:
-```
-git clone https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit.git
-```
-- Unzip the example code, and double-click the file `remote_monitoring.ino` to open the project in the Arduino IDE.
+
+- Unzip the [example code](https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit/archive/master.zip), and double-click the file `remote_monitoring.ino` to open the project in the Arduino IDE.
 - You will be prompted to creat a folder. Do this, and move the other files in the folder into the newly created child folder
 - In the project, look for the following lines of code:
 
