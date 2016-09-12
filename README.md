@@ -597,8 +597,7 @@ static const char connectionString[] = "[Device Connection String]";
 ***
 **Note**: As of 1.6.8, the Arduino IDE doesn't properly show "Upload Completed", even when it succeeds.
 ***
-
-- There should now be a green LED on your Adafruit Huzzah ESP8266. Re-select the COM port if necessary, and then open the Serial Monitor. After 15 seconds you should see a measurements update.
+- There should now be a blue blinking LED on your Adafruit Huzzah ESP8266. After the deployment is done and you see 100% in the output console, then go to **Tools -&gt; Serial Monitor** in the Arduino IDE to watch the live data being sent. After 15 seconds you should see a measurements update.
 - Data is now being sent off at regular intervals to Microsoft Azure. When it detects something out of range, you will see the LED you’ve set up turn from green to red!
 - You can click the green button (labeled "Turn on") and the red button (labeled "Turn off") in the application to toggle the green and red LEDs in your kit.
 
