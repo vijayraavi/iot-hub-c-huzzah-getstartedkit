@@ -6,7 +6,7 @@ author: hegate
 
 # Get Started with Microsoft Azure IoT Starter Kit - Adafruit Huzzah ESP8266 (Arduino-compatible)
 
-This page contains technical information to help you get familiar with Azure IoT using the Azure IoT Starter Kit - Adafruit Huzzah ESP8266. You will find two tutorials that will walk you through different scenarios: the first tutorial will show you how to connect your Azure IoT Starter kit to our Remote Monitoring preconfigured solution from Azure IoT Suite. In the second tutorial, you will leverage Azure IoT services to create your own IoT architecture.
+This page contains technical information to help you get familiar with Azure IoT using the Azure IoT Starter Kit - Adafruit Huzzah ESP8266 (Arduino-compatible). You will find two tutorials that will walk you through different scenarios: the first tutorial will show you how to connect your Azure IoT Starter kit to our Remote Monitoring preconfigured solution from Azure IoT Suite. In the second tutorial, you will leverage Azure IoT services to create your own IoT architecture.
 
 You can choose to start with whichever tutorial you want to. If you've never worked with Azure IoT services before, we encourage you to start with the Remote Monitoring solution tutorial, because all of the Azure services will be provisioned for you in a built-in preconfigured solution. Then you can explore how each of the services work by going through the second tutorial.
 
@@ -20,7 +20,7 @@ You can choose to start with whichever tutorial you want to. If you've never wor
 - [Using Microsoft Azure IoT to Process and Use Sensor Data to Indicate Abnormal Temperatures](#using-microsoft-azure-iot)
 
 <a name="run-on-device" />
-# Running a Simple Remote Monitoring Solution on Adafruit Huzzah ESP8266
+# Running a Simple Remote Monitoring Solution on Adafruit Huzzah ESP8266 (Arduino-compatible)
 
 This tutorial describes the process of taking your Adafruit Huzzah ESP8266 kit, and using it to develop a temperature, humidity and pressure reader that can communicate with the cloud using the  Microsoft Azure IoT SDK. 
 
