@@ -62,7 +62,7 @@ void initSerial() {
 
 void initWifi() {
     // Attempt to connect to Wifi network:
-    Serial.print("Attempting to connect to SSID: ");
+    Serial.print("\r\n\r\nAttempting to connect to SSID: ");
     Serial.println(ssid);
 
 
@@ -74,7 +74,7 @@ void initWifi() {
     }
 
 
-    Serial.println("Connected to wifi");
+    Serial.println("\r\nConnected to wifi");
 }
 
 void initTime() {  

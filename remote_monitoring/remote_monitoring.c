@@ -152,6 +152,7 @@ void remote_monitoring_run(void)
              */
 #ifdef AzureIoTHubVersion
 			config.deviceSasToken = NULL;
+            config.protocolGatewayHostName = NULL;
 #endif
 
             iotHubClientHandle = IoTHubClient_LL_Create(&config);
@@ -236,10 +237,10 @@ void remote_monitoring_run(void)
                                 float Humi;
                                 getNextSample(&Temp, &Humi);
                                 //thermostat->Temperature = 50 + (rand() % 10 + 2);
-                                thermostat->Temperature = (int)round(Temp);
+                                thermostat->Temperature = (Temp>600)?600:(int)round(Temp);
                                 thermostat->ExternalTemperature = 55 + (rand() % 5 + 2);
                                 //thermostat->Humidity = 50 + (rand() % 8 + 2);
-                                thermostat->Humidity = (int)round(Humi);
+                                thermostat->Humidity = (Humi>100)?100:(int)round(Humi);
                                 currentCycle = 0;
                                 unsigned char*buffer;
                                 size_t bufferSize;
@@ -257,7 +258,7 @@ void remote_monitoring_run(void)
                             }
 
                             IoTHubClient_LL_DoWork(iotHubClientHandle);
-                            ThreadAPI_Sleep(100);
+                            ThreadAPI_Sleep(1000);
                             currentCycle++;
                         }
                     }
