@@ -246,13 +246,13 @@ static const char pass[] = "[Your WiFi network WPA password or WEP key]";
 - Save with `Control-s`
 
 - Open up the file `remote_monitoring.c`
-- Find the Device id, Iot Hub Hostname and Device Key that you wrote down, when you added your custom device into the Azure IoT suite using this screen:
+- Find the Device id, Iot Hub Hostname and Device Key that you wrote down, when you saw the following screen after adding your custom device into the Azure IoT suite:
 
 ![Copy credentials](img/copy_credentials.png)
 
 If you cannot find this data, then you can go to your Remote Monitoring Solution in Azure IoT Suite, click on Devices and then select your device. Check the device properties section at the right part of the page for the DEVICEID, HOSTNAME and Authentication Keys (bottom right of the page). Click on "View Authentication keys" and copy "KEY 1" as your deviceKey.
 
-- Look for the following lines of code and replace the placeholders connection information (this is the Device information that you obtained at the end of the section, where you created the Azure IoT Suite):
+- Look for the following lines of code and replace the placeholders connection information (also remove the "[" and "]" when replacing the information):
 
 ```
 static const char* deviceId = "[device-id]";
@@ -269,7 +269,7 @@ static const char* hubSuffix = "azure-devices.net";
 
 ## 1.7 Build and Run Your Remote Monitoring Sample
 
-- Build the code using **Sketch -> Upload** or by clicking on the arrow button (second from the left)
+- Build, upload and run the code using **Sketch -> Upload** or by clicking on the arrow button (second from the left)
 
 ![Upload button](img/upload_button.PNG)
 
