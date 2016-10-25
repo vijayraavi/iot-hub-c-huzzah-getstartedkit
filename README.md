@@ -4,9 +4,9 @@ platforms: arduino
 author: hegate
 ---
 
-# Get Started with Microsoft Azure IoT Starter Kit - Adafruit Huzzah ESP8266 (Arduino-compatible)
+# Get Started with Microsoft Azure IoT Starter Kit - Adafruit Feather Huzzah ESP8266 (Arduino-compatible)
 
-This page contains technical information to help you get familiar with Azure IoT using the Azure IoT Starter Kit - Adafruit Huzzah ESP8266 (Arduino-compatible). You will find two tutorials that will walk you through different scenarios: the first tutorial will show you how to connect your Azure IoT Starter kit to our Remote Monitoring preconfigured solution from Azure IoT Suite. In the second tutorial, you will leverage Azure IoT services to create your own IoT architecture.
+This page contains technical information to help you get familiar with Azure IoT using the Azure IoT Starter Kit - Adafruit Feather Huzzah ESP8266 (Arduino-compatible). You will find two tutorials that will walk you through different scenarios: the first tutorial will show you how to connect your Azure IoT Starter kit to our Remote Monitoring preconfigured solution from Azure IoT Suite. In the second tutorial, you will leverage Azure IoT services to create your own IoT architecture.
 
 You can choose to start with whichever tutorial you want to. If you've never worked with Azure IoT services before, we encourage you to start with the Remote Monitoring solution tutorial, because all of the Azure services will be provisioned for you in a built-in preconfigured solution. Then you can explore how each of the services work by going through the second tutorial.
 
@@ -16,13 +16,13 @@ You can choose to start with whichever tutorial you want to. If you've never wor
 **Don't have a kit yet?:** Click [here](http://azure.com/iotstarterkits)
 ***
 
-- [Running a Simple Remote Monitoring Solution on Adafruit Huzzah ESP8266](#run-on-device)
+- [Running a Simple Remote Monitoring Solution on Adafruit Feather Huzzah ESP8266](#run-on-device)
 - [Using Microsoft Azure IoT to Process and Use Sensor Data to Indicate Abnormal Temperatures](#using-microsoft-azure-iot)
 
 <a name="run-on-device" />
-# Running a Simple Remote Monitoring Solution on Adafruit Huzzah ESP8266 (Arduino-compatible)
+# Running a Simple Remote Monitoring Solution on Adafruit Feather Huzzah ESP8266 (Arduino-compatible)
 
-This tutorial describes the process of taking your Adafruit Huzzah ESP8266 kit, and using it to develop a temperature, humidity and pressure reader that can communicate with the cloud using the  Microsoft Azure IoT SDK. 
+This tutorial describes the process of taking your Adafruit Feather Huzzah ESP8266 kit, and using it to develop a temperature, humidity and pressure reader that can communicate with the cloud using the  Microsoft Azure IoT SDK. 
 
 ## Table of Contents
 
@@ -30,13 +30,19 @@ This tutorial describes the process of taking your Adafruit Huzzah ESP8266 kit, 
 - [1.2 Before Starting](#12-before-starting)
   - [1.2.1 Required Software](#121-required-software)
   - [1.2.2 Required Hardware](#122-required-hardware)
-- [1.3 Create a New Azure IoT Suite Remote Monitoring solution and Add Device](#13-create-a-new-azure-iot-suite-remote-monitoring-solution-and-add-device)
-- [1.4 Connect the DHT22 Sensor Module to your Device](#14-connect-the-dht22-sensor-module-to-your-device)
-- [1.5 Add the Adafruit Huzzah ESP8266 to the Arduino IDE](#15-add-the-adafruit-huzzah-esp8266-to-the-arduino-ide)
-- [1.6 Install Library Dependencies](#16-install-library-dependencies)
-- [1.7 Modify the Remote Monitoring Sample](#17-modify-the-remote-monitoring-sample)
-- [1.8 Build Your Remote Monitoring Sample](#18-build-your-remote-monitoring-sample)
-- [1.9 View the Sensor Data from the Remote Monitoring Portal](#19-view-the-sensor-data-from-the-remote-monitoring-portal)
+- [1.3 Connect your device to the Temperature sensor](#13-connect-your-device-to-the-temperature-sensor)
+- [1.4 Create a New Azure IoT Suite Remote Monitoring solution and Add Device](#14-create-a-new-azure-iot-suite-remote-monitoring-solution-and-add-device)
+- [1.5 Configure the Arduino IDE](#15-configure-the-arduino-ide)
+  - [1.5.1 Add the Adafruit Feather Huzzah ESP8266 to the Arduino IDE](#151-add-the-adafruit-feather-huzzah-esp8266-to-the-arduino-ide)
+  - [1.5.2 Configuration settings](#152-configuration-settings)
+  - [1.5.3 Install Library Dependencies](#152-install-library-dependencies)
+- [1.6 Modify the Remote Monitoring Sample](#16-modify-the-remote-monitoring-sample)
+- [1.7 Build and Run Your Remote Monitoring Sample](#17-build-and-run-your-remote-monitoring-sample)
+- [1.8 View the Sensor Data from the Remote Monitoring Portal](#18-view-the-sensor-data-from-the-remote-monitoring-portal)
+- [1.9 Stop using the Azure IoT Suite](#19-stop-using-the-azure-iot-suite)
+  - [1.9.1 Delete the Azure IoT Suite](#191-delete-the-azure-iot-suite)
+  - [1.9.2 Stop the Azure IoT Suite](#192-stop-the-azure-iot-suite)
+  - [1.9.3 Downsize the Azure IoT Suite](#193-downsize-the-azure-iot-suite)
 - [1.10 Next steps](#110-next-steps)
 
 ## 1.1 Tutorial Overview
@@ -50,66 +56,24 @@ In this tutorial, you'll be doing the following:
 
 ### 1.2.1 Required Software
 
-- Arduino IDE, version 1.6.8. from www.arduino.cc (Earlier versions will not work with the AzureIoT library)
+- Arduino IDE, version 1.6.8 (or newer) from www.arduino.cc (Earlier versions will not work with the AzureIoT library)
 
 ### 1.2.2 Required Hardware
 
-- Adafruit Huzzah ESP8266 kit
+- Adafruit Feather Huzzah ESP8266 kit
   - Huzzah ESP8266 board
   - DHT22 Sensor
-  - breadboard
+  - Breadboard
   - M/M jumper wires
   - 10k Ohm Resistor (brown, black, orange)
 - A microB USB cable
-- A desktop or laptop computer which can run **Arduino IDE 1.6.8**
+- A desktop or laptop computer which can run **Arduino IDE 1.6.8** or newer
 
-## 1.3 Create a New Azure IoT Suite Remote Monitoring solution and Add Device
+## 1.3 Connect your device to the Temperature sensor
 
-- Log in to [Azure IoT Suite](https://www.azureiotsuite.com/)  with your Microsoft account and click **Create a New Preconfigured Solution**
+- Using this image as a reference, connect your Adafruit Feather Huzzah ESP8266 kit to the DHT22 Temperature sensor using the breadboard:
 
-***
-**Note:** For first time users, click here to get your [Azure free trial](https://azure.microsoft.com/en-us/pricing/free-trial/) which gives you 200USD of credit to get started.
-***
-
-- Click select in the **Remote Monitoring** option
-- Type in a solution name. For this tutorial we’ll be using _“HuzzahSuite”_ (You will have to name it something else. Make it unique. I.E. "ContosoSample")
-
-***
-**Note:** Make sure to copy down the names and connection strings mentioned into a text document for reference later.
-***
-
-- Choose your subscription and desired region to deploy, then click **Create Solution**
-- Wait for Azure to finish provisioning your IoT suite (this process may take up to 10 minutes), and then click **Launch**
-
-***
-**Note:** You may be asked to log back in. This is to ensure your solution has proper permissions associated with your account.
-***
-
-- Open the link to your IoT Suite’s “Solution Dashboard.” You may have been redirected there already.
-- This opens your personal remote monitoring site at the URL _&lt;Your Azure IoT Hub suite name&gt;.azurewebsites.net_ (e.g. _HuzzahSuite.azurewebsites.net_)
-- Click **Add a Device** at the lower left hand corner of your screen
-- Add a new **custom device**
-- Enter your desired `device ID`. In this case we’ll use _“Huzzah_w_DHT22”_, and then click Check ID
-- If Device ID is available, go ahead and click **Create**
-- Make note of your `device ID`, `Device Key`, and `IoT Hub Hostname` to enter into the code you’ll run on your device later 
-
-***
-**Warning:** The Remote Monitoring solution provisions a set of Azure IoT Services in your Azure account. It is meant to reflect a real enterprise architecture and thus its Azure consumption is quite heavy. To avoid unnecessary Azure consumption, we recommend you delete the preconfigured solution in azureiotsuite.com once you are done with your work (since it is easy to recreate). Alternatively, if you want to keep it up and running you can do two things to reduce consumption:
-
-1) Visit this [guide](https://github.com/Azure/azure-iot-remote-monitoring/blob/master/Docs/configure-preconfigured-demo.md) to run the solution in demo mode and reduce the Azure consumption.  
-
-2) Disable the simulated devices created with the solution (Go to Devices>>Select the device>> on the device details menu on the right, clich on Disable Device. Repeat with all the simulated devices).
-
-3) **Stop** your remote monitoring solution while you are working on the next steps. (See: [Troubleshooting](#troubleshooting))
-***
-
-- For additional reference, refer to the following:
- - https://azure.microsoft.com/en-us/documentation/articles/iot-suite-remote-monitoring-sample-walkthrough/
- - https://azure.microsoft.com/en-us/documentation/articles/iot-suite-connecting-devices/
-
-## 1.4 Connect the DHT22 Sensor Module to your Device
-
-- Using [this image](https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit/blob/master/img/huzzah_remote_monitoring.png?raw=true) as a reference, connect your DHT22 and Adafruit Huzzah ESP8266 to the breadboard
+![Huzzah image](img/huzzah_remote_monitoring.png?raw=true)
 
 ***
 **Note:** Column on the left corresponds to sensor and on the Right to board. On the image, the board is place between 10 and 30, with the RST pin connected to row 30, and sensor between 1 and 9, with the VDD pin connected to the row 1.
@@ -133,34 +97,144 @@ In this tutorial, you'll be doing the following:
 
 - For more information, see: [Adafruit DHT22 sensor setup](https://learn.adafruit.com/dht/connecting-to-a-dhtxx-sensor).
 
-**At the end of your work, your Adafruit Huzzah ESP8266 should be connected with a working sensor.**
+**At the end of your work, your Adafruit Feather Huzzah ESP8266 should be connected with a working sensor.**
 
-## 1.5 Add the Adafruit Huzzah ESP8266 to the Arduino IDE
 
-You will need to install the Adafruit Huzzah ESP8266 board extension for the Arduino IDE:
+## 1.4 Create a New Azure IoT Suite Remote Monitoring solution and Add Device
 
-- Follow the instructions [here](https://learn.adafruit.com/adafruit-huzzah-esp8266-breakout/using-arduino-ide). There you will see how to add a URL pointing to Adafruit's repository of board extensions, how to make the Adafruit Huzzah ESP8266 board selectable under the **Tools** menu, and how to get the Blink sketch to run.
-  - **Note**: There are two versions of Huzzah board, one with microB USB connector and other with a USB cable connected directly to the board. Both works properly with Azure IoT.
-  - Boards with microB connector don't have the GPIO0 button. So, in the 'Blink Test', ignore the steps to put the board in the bootload mode, and go directly to the step to upload the sketch via the IDE.
-- After going through this, you should have a working sample with a blinking light on your board.
-    - If you run into any connection issues, unplug the board, hold the reset button, and while still holding it, plug the board back in. This will flash to board to try again.
+- Log in to [Azure IoT Suite](https://www.azureiotsuite.com/) with your Microsoft account and click **Create a new Solution**
 
-## 1.6 Install Library Dependencies
+![Create solution](img/create_solution.jpg)
+
+***
+**Note:** For first time users, click here to get your [Azure free trial](https://azure.microsoft.com/en-us/pricing/free-trial/) which gives you $200 of credit to get started.
+***
+
+- Click the `select` button in the **Remote Monitoring** option
+
+![Solution types](img/solution_types.JPG)
+
+- Type in a solution name. For this tutorial we’ll be using _“HuzzahSuite”_ (You will have to name it something else. Make it unique. I.E. "ContosoSample")
+
+![Remote monitoring solution](img/create_remote_monitoring.JPG)
+
+- Choose your subscription and desired region to deploy, then click **Create Solution**
+- Wait for Azure to finish provisioning your IoT suite (this process may take up to 10 minutes), and then click **Launch**
+
+***
+**Note:** You may be asked to log back in. This is to ensure your solution has proper permissions associated with your account.
+***
+
+- Open the link to your IoT Suite’s “Solution Dashboard.” You may have been redirected there already.
+
+![Dashboard](img/remote_monitoring_dashboard.png)
+
+- This opens your personal remote monitoring site at the URL _&lt;Your Azure IoT Hub suite name&gt;.azurewebsites.net_ (e.g. _HuzzahSuite.azurewebsites.net_)
+- Click **Add a Device** at the lower left hand corner of your screen
+
+![Add device](img/add_device.png)
+
+- Add a new **custom device**
+
+![Custom device](img/add_new.png)
+
+- Enter your desired `device ID`. In this case we’ll use _“Huzzah_w_DHT22”_, and then click Check ID
+
+![Enter device](img/device_attributes.png)
+
+- If Device ID is available, go ahead and click **Create**
+
+![Copy credentials](img/copy_credentials.png)
+***
+- **IMPORTANT NOTE**: Write down your `device ID`, `Device Key`, and `IoT Hub Hostname` to enter into the code you’ll run on your device later 
+***
+
+- Make sure your device displays in the devices section. The device status is Pending until the device establishes a connection to the remote monitoring solution.
+
+![Device pending](img/pending_status.png)
+
+If you want to read additional information about the Azure IoT Suite, you can go the following websites:
+ - https://azure.microsoft.com/en-us/documentation/articles/iot-suite-remote-monitoring-sample-walkthrough/
+ - https://azure.microsoft.com/en-us/documentation/articles/iot-suite-connecting-devices/
+
+## 1.5 Configure the Arduino IDE
+
+In this step, we will be using the Arduino IDE. If you have not downloaded the IDE, please download it from the [Arduino website](https://www.arduino.cc/en/Main/Software).
+
+### 1.5.1 Add the Adafruit Feather Huzzah ESP8266 to the Arduino IDE
+
+You will need to install the Adafruit Feather Huzzah ESP8266 board extension for the Arduino IDE. In our steps below, we will be following the same instructions as in [this link](https://learn.adafruit.com/adafruit-huzzah-esp8266-breakout/using-arduino-ide), which you can also use for troubleshooting. After going through the following steps, you should have a working sample with a blinking light on your board.
+
+Open the Arduino IDE and go to `File -> Preferences`
+
+![Arduino preferences](img/arduino_preferences.JPG)
+
+Go to the field titled `"Additional Boards Manager URLs:"` and type  `http://arduino.esp8266.com/stable/package_esp8266com_index.json`
+
+![Board manager URL](img/board_manager_url.JPG)
+
+Click on `Tools -> Board -> Boards Manager`
+
+![Boards manager](img/boards_manager.JPG)
+
+Search for `esp8266`, left click on the result titled `esp8266 by ESP8266 Community` and click on install
+
+![ESP8266 Board](img/esp8266_board.PNG)
+
+After the board is installed select `Tools -> Board -> Adafruit HUZZAH ESP8266`
+
+![Select board](img/select_esp8266_board.PNG)
+
+### 1.5.2 Configuration settings
+
+Set the CPU frequency to 80MHz by clicking on `Tools -> CPU Frequency -> 80MHz`
+
+![Set frequency](img/frequency_80mhz.PNG)
+
+Set the upload speed to 115200 by clicking on `Tools -> Upload Speed -> 115200`
+
+![Set upload speed](img/upload_speed_115200.PNG)
+
+Set the COM port by clicking on `Tools -> Port -> COMx`. If you see multiple COM ports, then you will have to experiment, in order to find the one that corresponds to your device. One way to do that is to disconnect your device, check the list of COM ports, reconnect the device and then find which port was not there before.
+
+![Set COM port](img/select_com_port.PNG)
+
+In order to verify that you've set the correct COM port, you can click on `Tools -> Get Board Info`. If you see the message "Native serial port, can't obtain port info", then you have not selected the correct port. You can change the COM port using the step above and retry this step, until you see a message similar to:
+
+![Get Board info](img/get_board_info.PNG)
+
+If you run into any connection issues, unplug the board, hold the reset button, and while still holding it, plug the board back in. This will flash to board to try again.
+
+### 1.5.3 Install Library Dependencies
 
 For this project, we'll also need the following libraries:
 
+ - Adafruit DHT Unified 
  - DHT Sensor Library
- - Adafruit DHT Unified
  - AzureIoTHub
+ - Adafruit Unified Sensor driver
+ 
+To install the first 3 libraries, click on the `Sketch -> Include Library -> Manage Libraries`.
 
-To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
+![Manage libraries](img/manage_libraries.PNG)
 
-The Adafruit Unified Sensor library is also needed. This can be downloaded [here](https://github.com/adafruit/Adafruit_Sensor). Instructions for manually installing a library can be found [here](https://www.arduino.cc/en/Guide/Libraries).
+Search for each of the 3 libraries using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
 
-## 1.7 Modify the Remote Monitoring sample
+![Search for libraries](img/search_for_libraries.PNG)
 
-- Unzip the [example code](https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit/archive/master.zip), and double-click the file `remote_monitoring.ino` to open the project in the Arduino IDE.
-- You will be prompted to creat a folder. Do this, and move the other files in the folder into the newly created child folder
+The Adafruit Unified Sensor library is installed using a different mechanism. Go to [this website](https://github.com/adafruit/Adafruit_Sensor), click on the green "Clone or download" button and save the library in your system.
+
+![Download Adafruit Unified Sensor](img/adafruit_sensor_library.PNG)
+
+After you save this library in your system, go to `Sketch -> Include Library -> Add .ZIP Library` and select the library zip file from the place that you downloaded it to.
+
+![Select Adafruit Unified Sensor](img/add_zip_library.PNG)
+
+If you have any problems while installing the libraries, you can find more instructions [here](https://www.arduino.cc/en/Guide/Libraries).
+
+## 1.6 Modify the Remote Monitoring sample
+
+- Unzip the [example code](https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit/archive/master.zip), go to the `remote_monitoring` directory and double-click the file `remote_monitoring.ino` to open the project in the Arduino IDE.
 - In the project, look for the following lines of code:
 
 ```
@@ -168,11 +242,17 @@ static const char ssid[] = "[Your WiFi network SSID or name]";
 static const char pass[] = "[Your WiFi network WPA password or WEP key]";
 ```
 
-- Replace the placeholders with your WiFi name (SSID), WiFi password, and the device connection string you created at the beginning of this tutorial. 
+- Replace the placeholders with your WiFi name (SSID) and the WiFi password. 
 - Save with `Control-s`
 
 - Open up the file `remote_monitoring.c`
-- Look for the following lines of code and replace the placeholders connection information (this is the Device information that you obtained in the Remote Monitoring console):
+- Find the Device id, Iot Hub Hostname and Device Key that you wrote down, when you added your custom device into the Azure IoT suite using this screen:
+
+![Copy credentials](img/copy_credentials.png)
+
+If you cannot find this data, then you can go to your Remote Monitoring Solution in Azure IoT Suite, click on Devices and then select your device. Check the device properties section at the right part of the page for the DEVICEID, HOSTNAME and Authentication Keys (bottom right of the page). Click on "View Authentication keys" and copy "KEY 1" as your deviceKey.
+
+- Look for the following lines of code and replace the placeholders connection information (this is the Device information that you obtained at the end of the section, where you created the Azure IoT Suite):
 
 ```
 static const char* deviceId = "[device-id]";
@@ -182,17 +262,18 @@ static const char* hubSuffix = "azure-devices.net";
 ```
 
 ***
-**Note**: The "IoT Hub Hostname" in the Remote Monitoring console includes the suffix "azure-devices.net". When you paste the value for hubName you should not include this suffix. For example, if the "IoT Hub Hostname" is "my-device.azure-devices.net", then hubName should be set to "my-device" hubSuffix should be set to "azure-devices.net".
+**Note**: The "IoT Hub Hostname" in the Azure IoT Suite includes the suffix "azure-devices.net". When you paste the value for hubName you should not include this suffix. For example, if the "IoT Hub Hostname" is "my-device.azure-devices.net", then hubName should be set to "my-device" hubSuffix should be set to "azure-devices.net".
 ***
 
 - Save with `Control-s`
 
-## 1.8 Build Your Remote Monitoring Sample
+## 1.7 Build and Run Your Remote Monitoring Sample
 
-- Select the COM port on the Arduino IDE. Use **Tools -&gt; Port -&gt; COM** to select it.
-- Build the code using **Sketch -&gt; Verify/Compile**.
-  - This step is not really necessary, but can provide you a good feedback about what you've done up to now.
-  - If your code is correct and all libraries was properly installed, you will receive something like the follow message in the IDE.
+- Build the code using **Sketch -> Upload** or by clicking on the arrow button (second from the left)
+
+![Upload button](img/upload_button.PNG)
+
+- If your code is correct and all libraries was properly installed, you will receive something like the following message in the IDE.
 
   ```
   Sketch uses 376,409 bytes (36%) of program storage space. Maximum is 1,044,464 bytes.
@@ -200,27 +281,50 @@ static const char* hubSuffix = "azure-devices.net";
     local variables. Maximum is 81,920 bytes.
   ```
 
-- Now you are ready to build and upload the code. Use **Sketch -&gt;  Upload** on Arduino IDE.
-
-***
-**Note**: As of 1.6.8, the Arduino IDE doesn't properly show "Upload Completed", even when it succeeds.
-***
-
-- There should now be a blue blinking LED on your Adafruit Huzzah ESP8266. After the deployment is done and you see 100% in the output console, then go to **Tools -&gt; Serial Monitor** in the Arduino IDE to watch the live data being sent. After 15 seconds you should see a measurements update.
+- While the code is being downloaded, there should be a blue blinking LED on your Adafruit Feather Huzzah ESP8266.
+- After the deployment is done and you see 100% in the output console, then go to **Tools -&gt; Serial Monitor** in the Arduino IDE to watch the live data being sent. After 15 seconds you should see a measurements update.
 
 ***
 **Note**: When first starting you will likely see a “Fetching NTP epoch time failed” error – This is normal, and it trying to sync with Azure. This can take even up to 30 seconds to find a NTP server to sync with. One it is synced, it should start transmitting from there.
 ***
 
-## 1.9 View the Sensor Data from the Remote Monitoring Portal
+## 1.8 View the Sensor Data from the Remote Monitoring Portal
 
 - Once you have the sample running, visit your dashboard by visiting azureiotsuite.com and clicking “Launch” on your solution
 - Make sure the “Device to View” in the upper right is set to your device
 - If the demo is running, you should see the graph change as your data updates in real time!
 
+## 1.9 Stop using the Azure IoT Suite
+
 ***
-**Note:** Make sure you delete or **stop** your remote monitoring solution once you have completed this to avoid unnecessary Azure consumption!  (See: [Troubleshooting](#troubleshooting))
-***
+**Warning:** The Remote Monitoring solution provisions a set of Azure IoT Services in your Azure account. It is meant to reflect a real enterprise architecture and thus its Azure consumption is quite heavy. 
+
+To avoid unnecessary Azure consumption, you can delete, stop or downsize your Azure IoT Suite. We recommend you delete the preconfigured solution in azureiotsuite.com once you are done with your work (since it is easy to recreate). 
+
+
+### 1.9.1 Delete the Azure IoT Suite
+
+Go to https://www.azureiotsuite.com, click on your existing solution (not on the "Launch" button) and then click the red button `Delete Solution` in the right pane
+
+![Delete Azure IoT Suite](img/delete_suite.PNG)
+
+### 1.9.2 Stop the Azure IoT Suite
+
+In the [Microsoft Azure Portal](https://portal.azure.com/)
+- Click on "All Resources"
+- For each Stream Analytics and Web App resource:
+    - Click on the resource and click the "Stop" button in the new blade that appears
+- For each IoT Hub resource:
+    - Click on the resource and click the "Devices" button in the new blade that appears
+    - Click on each device in the list and click the "Disable" button that appears in the new blade at the bottom
+
+### 1.9.3 Downsize the Azure IoT Suite
+
+Alternatively, if you want to keep it up and running you can do two things to reduce consumption:
+
+1) Visit this [guide](https://github.com/Azure/azure-iot-remote-monitoring/blob/master/Docs/configure-preconfigured-demo.md) to run the solution in demo mode and reduce the Azure consumption.  
+
+2) Disable the simulated devices created with the solution (Go to Devices>>Select the device>> on the device details menu on the right, clich on Disable Device. Repeat with all the simulated devices).
 
 ## 1.10 Next steps
 
@@ -229,7 +333,7 @@ Please visit our [Azure IoT Dev Center](https://azure.microsoft.com/en-us/develo
 <a name="using-microsoft-azure-iot" />
 # Using Microsoft Azure IoT Services to Identify Temperature Anomalies
 
-This tutorial describes the process of taking your Microsoft Azure IoT Starter Kit for the Adafruit Huzzah ESP8266, and using it to develop a temperature and humidity reader that can communicate with the cloud using the  Microsoft Azure IoT SDK.
+This tutorial describes the process of taking your Microsoft Azure IoT Starter Kit for the Adafruit Feather Huzzah ESP8266, and using it to develop a temperature and humidity reader that can communicate with the cloud using the  Microsoft Azure IoT SDK.
 
 ## Table of Contents
 
@@ -243,7 +347,7 @@ This tutorial describes the process of taking your Microsoft Azure IoT Starter K
 - [2.6 Create a Storage Account for Table Storage](#26-create-a-storage-account-for-table-storage)
 - [2.7 Create a Stream Analytics job to Save IoT Data in Table Storage and Raise Alerts](#27-create-a-stream-analytics-job-to-save-iot-data-in-table-storage-and-raise-alerts)
 - [2.8 Node Application Setup](#28-node-application-setup)
-- [2.9 Add the Adafruit Huzzah ESP8266 to the Arduino IDE](#29-add-the-adafruit-huzzah-esp8266-to-the-arduino-ide)
+- [2.9 Add the Adafruit Feather Huzzah ESP8266 to the Arduino IDE](#29-add-the-adafruit-huzzah-esp8266-to-the-arduino-ide)
 - [2.10 Install Library Dependencies](#210-install-library-dependencies)
 - [2.11 Modify the Command Center Sample](#211-modify-the-command-center-sample)
 - [2.12 Build Your Command Center Sample](#212-build-your-command-center-sample)
@@ -259,7 +363,7 @@ This tutorial has the following steps:
 - Update the sample code to respond to commands and include the data from our sensors, sending it to Microsoft Azure to be viewed remotely.
 
 Here is a breakdown of the data flow:
-- The application running on the Adafruit Huzzah ESP8266 will get temperature data from the temperature sensor and it will send them to the IoT Hub
+- The application running on the Adafruit Feather Huzzah ESP8266 will get temperature data from the temperature sensor and it will send them to the IoT Hub
 - A Stream Analytics job will read the data from IoT Hub and write them to an Azure Storage Table. Also, if an anomaly is detected, then this job will write data to an Event Hub
 - The Node.js application that is running on your computers will read the data from the Azure Storage Table and the Event Hub and will present them to the user
 
@@ -275,7 +379,7 @@ The end result will be a functional command center where you can view the histor
 - Sensor interface [library](https://github.com/adafruit/Adafruit_DHT22_Library/archive/master.zip) from Adafruit.
 
 ### 2.2.2 Required Hardware
-- Adafruit Huzzah ESP8266 IoT kit
+- Adafruit Feather Huzzah ESP8266 IoT kit
   - Huzzah ESP8266 board
   - DHT22 Sensor
   - breadboard
@@ -289,7 +393,7 @@ The end result will be a functional command center where you can view the histor
 
 ## 2.3 Connect the Sensor Module to your Device
 
-- Using [this image](https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit/blob/master/img/huzzah_command_center.png?raw=true) as a reference, connect your DHT22 and Adafruit Huzzah ESP8266 to the breadboard
+- Using [this image](https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit/blob/master/img/huzzah_command_center.png?raw=true) as a reference, connect your DHT22 and Adafruit Feather Huzzah ESP8266 to the breadboard
 
 ***
 **Note:** Column on the left corresponds to sensor and on the Right to board. On the image, the board is place between 10 and 30 and sensor between 1 and 9. Additionally, when counting the - pins, start from the right and count in, as these do not align with the numbers indicated on the board.
@@ -324,7 +428,7 @@ The end result will be a functional command center where you can view the histor
 
 - For more information, see: [Adafruit DHT22 sensor setup](https://learn.adafruit.com/dht/connecting-to-a-dhtxx-sensor).
 
-**At the end of your work, your Adafruit Huzzah ESP8266 should be connected with a working sensor.**
+**At the end of your work, your Adafruit Feather Huzzah ESP8266 should be connected with a working sensor.**
 
 
 ### 2.4 Create a New Microsoft Azure IoT Hub and Add Device
@@ -542,11 +646,11 @@ To deploy this project to the cloud using Azure, you can reference [Creating a N
 
 Next, we will update your device so that it can interact with all the things you just created.
 
-## 2.9 Add the Adafruit Huzzah ESP8266 to the Arduino IDE
+## 2.9 Add the Adafruit Feather Huzzah ESP8266 to the Arduino IDE
 
-You will need to install the Adafruit Huzzah ESP8266 board extension for the Arduino IDE:
+You will need to install the Adafruit Feather Huzzah ESP8266 board extension for the Arduino IDE:
 
-- Follow the instructions [here](https://learn.adafruit.com/adafruit-huzzah-esp8266-breakout/using-arduino-ide). There you will see how to add a URL pointing to Adafruit's repository of board extensions, how to make the Adafruit Huzzah ESP8266 board selectable under the **Tools** menu, and how to get the Blink sketch to run.
+- Follow the instructions [here](https://learn.adafruit.com/adafruit-huzzah-esp8266-breakout/using-arduino-ide). There you will see how to add a URL pointing to Adafruit's repository of board extensions, how to make the Adafruit Feather Huzzah ESP8266 board selectable under the **Tools** menu, and how to get the Blink sketch to run.
   - As we explained on the item 1.5, boards with microB connector don't have the GPIO0 button. So, in the 'Blink Test', ignore the steps to put the board in the bootload mode, and go directly to the step to upload the sketch via the IDE.
 - After going through this, you should have a working sample with a blinking light on your board.
     - If you run into any connection issues, unplug the board, hold the reset button, and while still holding it, plug the board back in. This will flash to board to try again.
@@ -597,7 +701,7 @@ static const char connectionString[] = "[Device Connection String]";
 ***
 **Note**: As of 1.6.8, the Arduino IDE doesn't properly show "Upload Completed", even when it succeeds.
 ***
-- There should now be a blue blinking LED on your Adafruit Huzzah ESP8266. After the deployment is done and you see 100% in the output console, then go to **Tools -&gt; Serial Monitor** in the Arduino IDE to watch the live data being sent. After 15 seconds you should see a measurements update.
+- There should now be a blue blinking LED on your Adafruit Feather Huzzah ESP8266. After the deployment is done and you see 100% in the output console, then go to **Tools -&gt; Serial Monitor** in the Arduino IDE to watch the live data being sent. After 15 seconds you should see a measurements update.
 - Data is now being sent off at regular intervals to Microsoft Azure. When it detects something out of range, you will see the LED you’ve set up turn from green to red!
 - You can click the green button (labeled "Turn on") and the red button (labeled "Turn off") in the application to toggle the green and red LEDs in your kit.
 
