@@ -105,7 +105,7 @@ In this tutorial, you'll be doing the following:
 - Log in to [Azure IoT Suite](https://www.azureiotsuite.com/) with your Microsoft account and click **Create a new Solution**
 
 <p align="center">
-  <img src="img/create_solution.jpg" width="500"/>
+  <img src="img/create_solution.JPG" width="500"/>
 </p>
  
 ***
@@ -184,13 +184,13 @@ You will need to install the Adafruit Feather Huzzah ESP8266 board extension for
 Open the Arduino IDE and go to `File -> Preferences`
 
 <p align="center">
-  <img src="img/arduino_preferences.png" width="500"/>
+  <img src="img/arduino_preferences.jpg" width="500"/>
 </p>
 
 Go to the field titled `"Additional Boards Manager URLs:"` and type  `http://arduino.esp8266.com/stable/package_esp8266com_index.json`
 
 <p align="center">
-  <img src="img/board_manager_url.png" width="500"/>
+  <img src="img/board_manager_url.jpg" width="500"/>
 </p>
 
 Click on `Tools -> Board -> Boards Manager`
