@@ -104,19 +104,25 @@ In this tutorial, you'll be doing the following:
 
 - Log in to [Azure IoT Suite](https://www.azureiotsuite.com/) with your Microsoft account and click **Create a new Solution**
 
-![Create solution](img/create_solution.jpg)
-
+<p align="center">
+  <img src="img/create_solution.jpg" width="500"/>
+</p>
+ 
 ***
 **Note:** For first time users, click here to get your [Azure free trial](https://azure.microsoft.com/en-us/pricing/free-trial/) which gives you $200 of credit to get started.
 ***
 
 - Click the `select` button in the **Remote Monitoring** option
 
-![Solution types](img/solution_types.JPG)
+<p align="center">
+  <img src="img/solution_types.JPG" width="500"/>
+</p>
 
 - Type in a solution name. For this tutorial we’ll be using _“HuzzahSuite”_ (You will have to name it something else. Make it unique. I.E. "ContosoSample")
 
-![Remote monitoring solution](img/create_remote_monitoring.JPG)
+<p align="center">
+  <img src="img/create_remote_monitoring.JPG" width="500"/>
+</p>
 
 - Choose your subscription and desired region to deploy, then click **Create Solution**
 - Wait for Azure to finish provisioning your IoT suite (this process may take up to 10 minutes), and then click **Launch**
@@ -127,35 +133,45 @@ In this tutorial, you'll be doing the following:
 
 - Open the link to your IoT Suite’s “Solution Dashboard.” You may have been redirected there already.
 
-![Dashboard](img/remote_monitoring_dashboard.png)
+<p align="center">
+  <img src="img/remote_monitoring_dashboard.png" width="500"/>
+</p>
+
 
 - This opens your personal remote monitoring site at the URL _&lt;Your Azure IoT Hub suite name&gt;.azurewebsites.net_ (e.g. _HuzzahSuite.azurewebsites.net_)
 - Click **Add a Device** at the lower left hand corner of your screen
 
-![Add device](img/add_device.png)
+<p align="center">
+  <img src="img/add_device.png" width="500"/>
+</p>
 
 - Add a new **custom device**
 
-![Custom device](img/add_new.png)
+<p align="center">
+  <img src="img/add_new.png" width="500"/>
+</p>
 
 - Enter your desired `device ID`. In this case we’ll use _“Huzzah_w_DHT22”_, and then click Check ID
 
-![Enter device](img/device_attributes.png)
+<p align="center">
+  <img src="img/device_attributes.png" width="500"/>
+</p>
 
 - If Device ID is available, go ahead and click **Create**
 
-![Copy credentials](img/copy_credentials.png)
+<p align="center">
+  <img src="img/copy_credentials.png" width="500"/>
+</p>
+
 ***
 - **IMPORTANT NOTE**: Write down your `device ID`, `Device Key`, and `IoT Hub Hostname` to enter into the code you’ll run on your device later 
 ***
 
 - Make sure your device displays in the devices section. The device status is Pending until the device establishes a connection to the remote monitoring solution.
 
-![Device pending](img/pending_status.png)
-
-If you want to read additional information about the Azure IoT Suite, you can go the following websites:
- - https://azure.microsoft.com/en-us/documentation/articles/iot-suite-remote-monitoring-sample-walkthrough/
- - https://azure.microsoft.com/en-us/documentation/articles/iot-suite-connecting-devices/
+<p align="center">
+  <img src="img/pending_status.png" width="500"/>
+</p>
 
 ## 1.5 Configure the Arduino IDE
 
@@ -167,41 +183,59 @@ You will need to install the Adafruit Feather Huzzah ESP8266 board extension for
 
 Open the Arduino IDE and go to `File -> Preferences`
 
-![Arduino preferences](img/arduino_preferences.JPG)
+<p align="center">
+  <img src="img/arduino_preferences.png" width="500"/>
+</p>
 
 Go to the field titled `"Additional Boards Manager URLs:"` and type  `http://arduino.esp8266.com/stable/package_esp8266com_index.json`
 
-![Board manager URL](img/board_manager_url.JPG)
+<p align="center">
+  <img src="img/board_manager_url.png" width="500"/>
+</p>
 
 Click on `Tools -> Board -> Boards Manager`
 
-![Boards manager](img/boards_manager.JPG)
+<p align="center">
+  <img src="img/boards_manager.JPG" width="500"/>
+</p>
 
 Search for `esp8266`, left click on the result titled `esp8266 by ESP8266 Community` and click on install
 
-![ESP8266 Board](img/esp8266_board.PNG)
+<p align="center">
+  <img src="img/esp8266_board.PNG" width="500"/>
+</p>
 
 After the board is installed select `Tools -> Board -> Adafruit HUZZAH ESP8266`
 
-![Select board](img/select_esp8266_board.PNG)
+<p align="center">
+  <img src="img/select_esp8266_board.PNG" width="500"/>
+</p>
 
 ### 1.5.2 Configuration settings
 
 Set the CPU frequency to 80MHz by clicking on `Tools -> CPU Frequency -> 80MHz`
 
-![Set frequency](img/frequency_80mhz.PNG)
+<p align="center">
+  <img src="img/frequency_80mhz.PNG" width="500"/>
+</p>
 
 Set the upload speed to 115200 by clicking on `Tools -> Upload Speed -> 115200`
 
-![Set upload speed](img/upload_speed_115200.PNG)
+<p align="center">
+  <img src="img/upload_speed_115200.PNG" width="500"/>
+</p>
 
 Set the COM port by clicking on `Tools -> Port -> COMx`. If you see multiple COM ports, then you will have to experiment, in order to find the one that corresponds to your device. One way to do that is to disconnect your device, check the list of COM ports, reconnect the device and then find which port was not there before.
 
-![Set COM port](img/select_com_port.PNG)
+<p align="center">
+  <img src="img/select_com_port.PNG" width="500"/>
+</p>
 
 In order to verify that you've set the correct COM port, you can click on `Tools -> Get Board Info`. If you see the message "Native serial port, can't obtain port info", then you have not selected the correct port. You can change the COM port using the step above and retry this step, until you see a message similar to:
 
-![Get Board info](img/get_board_info.PNG)
+<p align="center">
+  <img src="img/get_board_info.PNG" width="500"/>
+</p>
 
 If you run into any connection issues, unplug the board, hold the reset button, and while still holding it, plug the board back in. This will flash to board to try again.
 
@@ -212,23 +246,19 @@ For this project, we'll also need the following libraries:
  - Adafruit DHT Unified 
  - DHT Sensor Library
  - AzureIoTHub
- - Adafruit Unified Sensor driver
+ - Adafruit Unified Sensor
  
-To install the first 3 libraries, click on the `Sketch -> Include Library -> Manage Libraries`.
+To install these libraries, click on the `Sketch -> Include Library -> Manage Libraries`.
 
-![Manage libraries](img/manage_libraries.PNG)
+<p align="center">
+  <img src="img/manage_libraries.PNG" width="500"/>
+</p>
 
-Search for each of the 3 libraries using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
+Search for each of these libraries using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
 
-![Search for libraries](img/search_for_libraries.PNG)
-
-The Adafruit Unified Sensor library is installed using a different mechanism. Go to [this website](https://github.com/adafruit/Adafruit_Sensor), click on the green "Clone or download" button and save the library in your system.
-
-![Download Adafruit Unified Sensor](img/adafruit_sensor_library.PNG)
-
-After you save this library in your system, go to `Sketch -> Include Library -> Add .ZIP Library` and select the library zip file from the place that you downloaded it to.
-
-![Select Adafruit Unified Sensor](img/add_zip_library.PNG)
+<p align="center">
+  <img src="img/search_for_libraries.PNG" width="500"/>
+</p>
 
 If you have any problems while installing the libraries, you can find more instructions [here](https://www.arduino.cc/en/Guide/Libraries).
 
@@ -248,7 +278,9 @@ static const char pass[] = "[Your WiFi network WPA password or WEP key]";
 - Open up the file `remote_monitoring.c`
 - Find the Device id, Iot Hub Hostname and Device Key that you wrote down, when you saw the following screen after adding your custom device into the Azure IoT suite:
 
-![Copy credentials](img/copy_credentials.png)
+<p align="center">
+  <img src="img/copy_credentials.PNG" width="500"/>
+</p>
 
 If you cannot find this data, then you can go to your Remote Monitoring Solution in Azure IoT Suite, click on Devices and then select your device. Check the device properties section at the right part of the page for the DEVICEID, HOSTNAME and Authentication Keys (bottom right of the page). Click on "View Authentication keys" and copy "KEY 1" as your deviceKey.
 
@@ -271,7 +303,9 @@ static const char* hubSuffix = "azure-devices.net";
 
 - Build, upload and run the code using **Sketch -> Upload** or by clicking on the arrow button (second from the left)
 
-![Upload button](img/upload_button.PNG)
+<p align="center">
+  <img src="img/upload_button.PNG" width="500"/>
+</p>
 
 - If your code is correct and all libraries was properly installed, you will receive something like the following message in the IDE.
 
@@ -301,12 +335,17 @@ static const char* hubSuffix = "azure-devices.net";
 
 To avoid unnecessary Azure consumption, you can delete, stop or downsize your Azure IoT Suite. We recommend you delete the preconfigured solution in azureiotsuite.com once you are done with your work (since it is easy to recreate). 
 
+If you want to read additional information about the Azure IoT Suite, you can go the following websites:
+ - https://azure.microsoft.com/en-us/documentation/articles/iot-suite-remote-monitoring-sample-walkthrough/
+ - https://azure.microsoft.com/en-us/documentation/articles/iot-suite-connecting-devices/
 
 ### 1.9.1 Delete the Azure IoT Suite
 
 Go to https://www.azureiotsuite.com, click on your existing solution (not on the "Launch" button) and then click the red button `Delete Solution` in the right pane
 
-![Delete Azure IoT Suite](img/delete_suite.PNG)
+<p align="center">
+  <img src="img/delete_suite.PNG" width="500"/>
+</p>
 
 ### 1.9.2 Stop the Azure IoT Suite
 
