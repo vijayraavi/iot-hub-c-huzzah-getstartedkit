@@ -7,6 +7,9 @@
 #include <time.h>
 #include "command_center_http.h"
 #include <AzureIoTHub.h>
+#ifdef AzureIoTUtilityVersion
+#include <AzureIoTProtocol_HTTP.h>
+#endif
 
 #ifdef ARDUINO_ARCH_ESP8266
 static WiFiClientSecure sslClient; // for ESP8266

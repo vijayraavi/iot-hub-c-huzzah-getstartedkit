@@ -21,6 +21,11 @@ and removing calls to _DoWork will yield the same results. */
 #include "AzureIoTHub.h"
 #include "sdk/schemaserializer.h"
 
+/* CODEFIRST_OK is the new name for IOT_AGENT_OK. The follow #ifndef helps during the name migration. Remove it when the migration ends. */
+#ifndef  IOT_AGENT_OK
+#define  IOT_AGENT_OK CODEFIRST_OK
+#endif // ! IOT_AGENT_OK
+
 //static const char* connectionString = "HostName=[host].azure-devices.net;DeviceId=[device];SharedAccessKey=[key]";
 static const char DeviceId[] = "[Device Name]";
 static const char connectionString[] = "[Device Connection String]";
@@ -43,8 +48,6 @@ WITH_ACTION(TurnFanOff)
 );
 
 END_NAMESPACE(WeatherStation);
-
-DEFINE_ENUM_STRINGS(IOTHUB_CLIENT_CONFIRMATION_RESULT, IOTHUB_CLIENT_CONFIRMATION_RESULT_VALUES)
 
 EXECUTE_COMMAND_RESULT TurnFanOff(ContosoAnemometer* device)
 {

@@ -8,6 +8,9 @@
 #include <WiFiUdp.h>
 
 #include <AzureIoTHub.h>
+#ifdef AzureIoTUtilityVersion
+#include <AzureIoTProtocol_HTTP.h>
+#endif
 
 #include "remote_monitoring.h"
 
