@@ -255,6 +255,8 @@ For this project, we'll also need the following libraries:
  - Adafruit DHT Unified 
  - DHT Sensor Library
  - AzureIoTHub
+ - AzureIoTUtility
+ - AzureIoTProtocol_MQTT
  - Adafruit Unified Sensor
  
 To install these libraries, click on the `Sketch -> Include Library -> Manage Libraries`.
@@ -271,21 +273,22 @@ Search for each of these libraries using the box in the upper-right to filter yo
 
 If you have any problems while installing the libraries, you can find more instructions [here](https://www.arduino.cc/en/Guide/Libraries).
 
+***
+**Note**: Starting on version 1.0.17, `AzureIoTHub` required the `AzureIoTUtility` and one of the available protocols. These samples use the `AzureIoTProtocol_MQTT`, but it is prepared to work with `AzureIoTProtocol_HTTP` too.
+***
+
 <a name="section1.6" />
 ## 1.6 Modify the Remote Monitoring sample
 
 - Unzip the [example code](https://github.com/Azure-Samples/iot-hub-c-huzzah-getstartedkit/archive/master.zip), go to the `remote_monitoring` directory and double-click the file `remote_monitoring.ino` to open the project in the Arduino IDE.
-- In the project, look for the following lines of code:
+- In the project, edit the `iot_configs.h`, look for the following lines of code:
 
 ```
-static const char ssid[] = "[Your WiFi network SSID or name]";
-static const char pass[] = "[Your WiFi network WPA password or WEP key]";
+#define IOT_CONFIG_WIFI_SSID            "<Your WiFi network SSID or name>"
+#define IOT_CONFIG_WIFI_PASSWORD        "<Your WiFi network WPA password or WEP key>"
 ```
 
 - Replace the placeholders with your WiFi name (SSID) and the WiFi password. 
-- Save with `Control-s`
-
-- Open up the file `remote_monitoring.c`
 - Find the Device id, Iot Hub Hostname and Device Key that you wrote down, when you saw the following screen after adding your custom device into the Azure IoT suite:
 
 <p align="center">
@@ -294,18 +297,11 @@ static const char pass[] = "[Your WiFi network WPA password or WEP key]";
 
 If you cannot find this data, then you can go to your Remote Monitoring Solution in Azure IoT Suite, click on Devices and then select your device. Check the device properties section at the right part of the page for the DEVICEID, HOSTNAME and Authentication Keys (bottom right of the page). Click on "View Authentication keys" and copy "KEY 1" as your deviceKey.
 
-- Look for the following lines of code and replace the placeholders connection information (also remove the "[" and "]" when replacing the information):
+- Look for the following line of code and replace the placeholders connection information (also remove the "<" and ">" when replacing the information):
 
 ```
-static const char* deviceId = "[device-id]";
-static const char* deviceKey = "[device-key]";
-static const char* hubName = "[hub-name]";
-static const char* hubSuffix = "azure-devices.net";
+#define IOT_CONFIG_CONNECTION_STRING    "HostName=<host_name>.azure-devices.net;DeviceId=<device_id>;SharedAccessKey=<device_key>"
 ```
-
-***
-**Note**: The "IoT Hub Hostname" in the Azure IoT Suite includes the suffix "azure-devices.net". When you paste the value for hubName you should not include this suffix. For example, if the "IoT Hub Hostname" is "my-device.azure-devices.net", then hubName should be set to "my-device" hubSuffix should be set to "azure-devices.net".
-***
 
 - Save with `Control-s`
 
@@ -728,6 +724,8 @@ For this project, we'll also need the the following libraries:
  - DHT Sensor Library
  - Adafruit DHT Unified
  - AzureIoTHub
+ - AzureIoTUtility
+ - AzureIoTProtocol_MQTT
 
 To install them, click on the `Sketch -> Include Library -> Manage Libraries`. Search for each library using the box in the upper-right to filter your search, click on the found library, and click the "Install" button.
 
@@ -749,7 +747,7 @@ static const char* connectionString = "[Device Connection String]";
 - Replace the placeholders with your WiFi name (SSID), WiFi password, and the device connection string you created at the beginning of this tutorial. 
 - Save with `Control-s`
 
-- In the same project, click on the `command_center_http.c` tab to see that file.
+- In the same project, click on the `command_center.c` tab to see that file.
 - Look for the following lines of code:
 
 ```

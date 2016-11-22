@@ -11,10 +11,10 @@
 #include <time.h>
 
 #include "dht22.h"
-#include "command_center_http.h"
+#include "command_center.h"
 
 /* This sample uses the _LL APIs of iothub_client for example purposes.
-That does not mean that HTTP only works with the _LL APIs.
+That does not mean that HTTP or MQTT only works with the _LL APIs.
 Simply changing the using the convenience layer (functions not having _LL)
 and removing calls to _DoWork will yield the same results. */
 
@@ -154,7 +154,7 @@ static IOTHUBMESSAGE_DISPOSITION_RESULT IoTHubMessage(IOTHUB_MESSAGE_HANDLE mess
     return result;
 }
 
-void simplesample_http_run(void)
+void command_center_run(void)
 {
     initDht();
 
@@ -170,7 +170,7 @@ void simplesample_http_run(void)
     }
     else
     {
-        IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle = IoTHubClient_LL_CreateFromConnectionString(connectionString, HTTP_Protocol);
+        IOTHUB_CLIENT_LL_HANDLE iotHubClientHandle = IoTHubClient_LL_CreateFromConnectionString(connectionString, MQTT_Protocol);
         srand((unsigned int)time(NULL));
         int avgWindSpeed = 10.0;
 

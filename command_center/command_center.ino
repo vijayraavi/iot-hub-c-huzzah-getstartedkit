@@ -5,11 +5,9 @@
 
 #include <ESP8266WiFi.h>
 #include <time.h>
-#include "command_center_http.h"
+#include "command_center.h"
 #include <AzureIoTHub.h>
-#ifdef AzureIoTUtilityVersion
-#include <AzureIoTProtocol_HTTP.h>
-#endif
+#include <AzureIoTProtocol_MQTT.h>
 
 #ifdef ARDUINO_ARCH_ESP8266
 static WiFiClientSecure sslClient; // for ESP8266
@@ -48,7 +46,7 @@ void setup() {
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 void loop() {
     // This function doesn't exit.
-    simplesample_http_run();
+    command_center_run();
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
