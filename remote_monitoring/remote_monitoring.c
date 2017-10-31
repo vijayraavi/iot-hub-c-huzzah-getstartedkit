@@ -5,7 +5,7 @@
 
 #include "AzureIoTHub.h"
 #include "sdk/schemaserializer.h"
-#include "dht22.h"
+#include "sensor.h"
 
 /* CODEFIRST_OK is the new name for IOT_AGENT_OK. The follow #ifndef helps during the name migration. Remove it when the migration ends. */
 #ifndef  IOT_AGENT_OK
@@ -187,7 +187,7 @@ static IOTHUBMESSAGE_DISPOSITION_RESULT IoTHubMessage(IOTHUB_MESSAGE_HANDLE mess
 
 void remote_monitoring_run(void)
 {
-        initDht();
+        initSensor();
 
         srand((unsigned int)time(NULL));
         if (serializer_init(NULL) != SERIALIZER_OK)

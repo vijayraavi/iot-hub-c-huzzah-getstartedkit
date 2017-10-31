@@ -1,15 +1,15 @@
 // Copyright (c) Microsoft. All rights reserved.
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
-#ifndef __DHT22_H
-#define __DHT22_H
+#ifndef __SENSOR_H
+#define __SENSOR_H
 
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-void initDht(void);
+void initSensor(void);
 void getNextSample(float* Temperature, float* Humidity);
 
 #ifdef __cplusplus
@@ -17,5 +17,5 @@ void getNextSample(float* Temperature, float* Humidity);
 #endif
 
 
-#endif//__DHT22_H
+#endif//__SENSOR_H
 
