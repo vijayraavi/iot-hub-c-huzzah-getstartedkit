@@ -5,6 +5,7 @@
 
 #include <stdio.h>
 #include <stdint.h>
+#include "iot_configs.h"
 
 /* This sample uses the _LL APIs of iothub_client for example purposes.
 That does not mean that HTTP only works with the _LL APIs.

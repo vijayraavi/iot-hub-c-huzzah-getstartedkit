@@ -12,6 +12,7 @@ Simply changing the using the convenience layer (functions not having _LL)
 and removing calls to _DoWork will yield the same results. */
 
 #include "AzureIoTHub.h"
+#include "iot_configs.h"
 
 
 /*String containing Hostname, Device Id & Device Key in the format:             */
