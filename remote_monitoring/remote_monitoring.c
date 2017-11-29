@@ -2,6 +2,7 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include "iot_configs.h"
+#include "sample.h"
 
 #include "AzureIoTHub.h"
 #include "sdk/schemaserializer.h"
@@ -327,3 +328,10 @@ void remote_monitoring_run(void)
 
     }
 }
+
+
+void sample_run(void)
+{
+    remote_monitoring_run();
+}
+

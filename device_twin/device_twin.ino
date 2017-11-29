@@ -3,8 +3,6 @@
 
 // Please use an Arduino IDE 1.6.8 or greater
 
-// You must set the device id, device key, IoT Hub name and IotHub suffix in
-// iot_configs.h
 #include "iot_configs.h"
 
 #include <ESP8266WiFi.h>
