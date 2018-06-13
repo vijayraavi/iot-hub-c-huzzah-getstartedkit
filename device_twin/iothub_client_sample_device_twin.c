@@ -9,9 +9,6 @@
 #include <AzureIoTHub.h>
 #include <AzureIoTProtocol_MQTT.h>
 
-DEFINE_ENUM_STRINGS(DEVICE_TWIN_UPDATE_STATE, DEVICE_TWIN_UPDATE_STATE_VALUES);
-
-
 /*String containing Hostname, Device Id & Device Key in one of the formats:                 */
 /*  "HostName=<host_name>;DeviceId=<device_id>;SharedAccessKey=<device_key>"                */
 /*  "HostName=<host_name>;DeviceId=<device_id>;SharedAccessSignature=<device_sas_token>"    */
