@@ -1,11 +1,8 @@
----
-services: iot-hub, stream-analytics, event-hubs, web-apps, documentdb, storage-accounts
-platforms: arduino
-author: hegate
----
+
 
 # Get Started with Microsoft Azure IoT Starter Kit - Adafruit Feather Huzzah ESP8266 (Arduino-compatible)
 
+**Note: this article has been archived and it is not longer updated. Instructions may not be totally up to date.**
 ***
 **Looking for something simple?** This tutorial is very complete and contains a lot of detail. If you want
 something quick and simple, try one of these:
